@@ -216,14 +216,14 @@ SubProceso DibujarCartasJugadorGrande(nros Por Referencia, palos Por Referencia,
     Definir i Como Entero
     
     // Guías numéricas arriba de las cartas
-    Escribir "     [ 1 ]                   [ 2 ]                   [ 3 ]"
+    Escribir "          [ 1 ]               [ 2 ]               [ 3 ]"
     
     // Fila superior del borde de las cartas disponibles
     Para i <- 0 Hasta 2 Hacer
         Si disp[i] = 1 Entonces 
-            Escribir Sin Saltar "+-------+   " 
+            Escribir Sin Saltar "        +-------+   " 
         Sino 
-            Escribir Sin Saltar "            " 
+            Escribir Sin Saltar "              " 
         FinSi
     FinPara
     Escribir ""
@@ -232,45 +232,45 @@ SubProceso DibujarCartasJugadorGrande(nros Por Referencia, palos Por Referencia,
     Para i <- 0 Hasta 2 Hacer
         Si disp[i] = 1 Entonces
             Si nros[i] < 10 Entonces
-                Escribir Sin Saltar "| ", nros[i], "    |   "
+                Escribir Sin Saltar "        | ", nros[i], "     |   "
             Sino
-                Escribir Sin Saltar "| ", nros[i], "   |   "
+                Escribir Sin Saltar "        | ", nros[i], "    |   "
             FinSi
         Sino
             Escribir Sin Saltar "            "
         FinSi
     FinPara
-    Escribir ""
+    Escribir "   "
     
     // Fila con el palo de la carta (abreviado a 3 letras para mantener diseño)
     Para i <- 0 Hasta 2 Hacer
         Si disp[i] = 1 Entonces
             Si palos[i] = "Espada" Entonces 
-                Escribir Sin Saltar "|  Esp  |   " 
+                Escribir Sin Saltar "        |  Esp  |   " 
             FinSi
             Si palos[i] = "Basto" Entonces 
-                Escribir Sin Saltar "|  Bas  |   " 
+                Escribir Sin Saltar "        |  Bas  |   " 
             FinSi
             Si palos[i] = "Oro" Entonces 
-                Escribir Sin Saltar "|  Oro  |   " 
+                Escribir Sin Saltar "        |  Oro  |   " 
             FinSi
             Si palos[i] = "Copa" Entonces 
-                Escribir Sin Saltar "|  Cop  |   " 
+                Escribir Sin Saltar "        |  Cop  |   " 
             FinSi
         Sino
             Escribir Sin Saltar "            "
         FinSi
     FinPara
-    Escribir ""
+    Escribir "    "
     
     // Fila inferior del número de la carta
     Para i <- 0 Hasta 2 Hacer
         Si disp[i] = 1 Entonces
-            If nros[i] < 10 Entonces
-                Escribir Sin Saltar "|    ", nros[i], "  |   "
+            Si nros[i] < 10 Entonces
+                Escribir Sin Saltar "        |    ", nros[i], "  |   "
             Sino
-                Escribir Sin Saltar "|   ", nros[i], "  |   "
-            FinIf
+                Escribir Sin Saltar "        |   ", nros[i], "  |   "
+            FinSi
         Sino
             Escribir Sin Saltar "            "
         FinSi
@@ -280,12 +280,12 @@ SubProceso DibujarCartasJugadorGrande(nros Por Referencia, palos Por Referencia,
     // Fila inferior del borde de las cartas
     Para i <- 0 Hasta 2 Hacer
         Si disp[i] = 1 Entonces 
-            Escribir Sin Saltar "+-------+   " 
+            Escribir Sin Saltar "        +-------+   " 
         Sino 
             Escribir Sin Saltar "            " 
         FinSi
     FinPara
-    Escribir ""
+    Escribir " "
 FinSubProceso
 
 SubProceso MostrarReglas
@@ -574,7 +574,7 @@ SubProceso CrearMazo(nros Por Referencia, palos Por Referencia, jers Por Referen
             Si num = 7 Y palosDeLasCartas[p] = "Oro" Entonces 
                 jerarquia <- 11 
             FinSi
-            Si num = 7 Y palos[p] = "Espada" Entonces 
+            Si num = 7 Y palosDeLasCartas[p] = "Espada" Entonces 
                 jerarquia <- 12 
             FinSi
             Si num = 1 Y palosDeLasCartas[p] = "Basto" Entonces 
@@ -708,10 +708,10 @@ SubProceso ResolverEnvido(tipo, eJ, eC, pJ Por Referencia, pC Por Referencia, pM
         FinSi
     FinSi
     Si acepta = Verdadero Entonces
-        Escribir "CPU: iQuiero! (Tengo ", eC, " pts)"
+        Escribir "CPU: ¡Quiero! (Tengo ", eC, " pts)"
         Escribir "Tu envido es: ", eJ
         Si eJ >= eC Entonces
-            Escribir "iGanaste el Envido! (+", ptsGanados, " ptos)"
+            Escribir "¡Ganaste el Envido! (+", ptsGanados, " ptos)"
             pJ <- pJ + ptsGanados
         Sino
             Escribir "La CPU gana el Envido. (+", ptsGanados, " ptos)"
@@ -731,21 +731,21 @@ SubProceso ResolverTrucoJugador(estTruco Por Referencia, ptsTruco Por Referencia
     ptsEnJuego <- 0
     
     Si estTruco = 0 Entonces
-        Escribir "Jugador: iTruco!"
+        Escribir "Jugador: ¡Truco!"
         ptsEnJuego <- 2
     FinSi
     Si estTruco = 1 Entonces
-        Escribir "Jugador: iRetruco!"
+        Escribir "Jugador: ¡Retruco!"
         ptsEnJuego <- 3
     FinSi
     Si estTruco = 2 Entonces
-        Escribir "Jugador: iVale Cuatro!"
+        Escribir "Jugador: ¡Vale Cuatro!"
         ptsEnJuego <- 4
     FinSi
     
     Esperar 1 Segundos
     Si Azar(10) > 3 Entonces 
-        Escribir "CPU: iQuiero!"
+        Escribir "CPU: ¡Quiero!"
         estTruco <- estTruco + 1
         ptsTruco <- ptsEnJuego
         turnoTruco <- 2 
@@ -757,7 +757,7 @@ SubProceso ResolverTrucoJugador(estTruco Por Referencia, ptsTruco Por Referencia
     Esperar 2 Segundos
 FinSubProceso
 
-FinSubProcesoSubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Referencia, jEnvs Por Referencia, cNros Por Referencia, cPalos Por Referencia, cJers Por Referencia, cEnvs Por Referencia, puntosJ Por Referencia, puntosC Por Referencia, pMaximos)
+SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Referencia, jEnvs Por Referencia, cNros Por Referencia, cPalos Por Referencia, cJers Por Referencia, cEnvs Por Referencia, puntosJ Por Referencia, puntosC Por Referencia, pMaximos)
     Definir dispJ, dispC Como Entero
     Dimension dispJ[3], dispC[3]
     Definir i, mano, jCarta, cCarta, ganadasJ, ganadasC Como Entero
@@ -924,6 +924,66 @@ FinSubProcesoSubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, 
     FinPara
 FinSubProceso
 
+SubProceso verificarCaptura(idJugador, posGlobal, posicionTabla Por Referencia, estadoFicha Por Referencia)
+    Definir j, p Como Entero
+    Definir globalRival Como Entero
+    globalRival <- 0
+    j <- 0
+    p <- 0
+    Si esCasillaSegura(posGlobal) = Falso Y posGlobal >= 1 Y posGlobal <= 51 Entonces
+        Para j <- 1 Hasta 4 Hacer
+            Si j <> idJugador Entonces
+                Para p <- 1 Hasta 4 Hacer
+                    Si estadoFicha[j, p] Y posicionTabla[j, p] >= 1 Y posicionTabla[j, p] <= 51 Entonces
+                        globalRival <- (((j - 1) * 13 + (posicionTabla[j, p] - 1)) MOD 52) + 1
+                        Si globalRival = posGlobal Entonces
+                            estadoFicha[j, p] <- Falso
+                            posicionTabla[j, p] <- 0
+                            Escribir " ¡CAPTURA! ¡La ficha ", p, " del Jugador ", j, " fue enviada a casa!"
+                        FinSi
+                    FinSi
+                FinPara
+            FinSi
+        FinPara
+    FinSi
+FinSubProceso
+
+Funcion esSeguro <- esCasillaSegura(posGlobal)
+    Definir esSeguro Como Logico
+    esSeguro <- Falso
+    Si posGlobal = 1 O posGlobal = 14 O posGlobal = 27 O posGlobal = 40 O posGlobal = 9 O posGlobal = 22 O posGlobal = 35 O posGlobal = 48 Entonces
+        esSeguro <- Verdadero
+    FinSi
+FinFuncion
+
+SubProceso EjecutarBucleJuego(cantidadJugadores, POSICION_META, juegoActivo Por Referencia, tablero, posicionTabla Por Referencia, estadoFicha Por Referencia, esVsPC)
+    Definir i Como Entero
+    i <- 0
+    Mientras juegoActivo Hacer
+        Para i <- 1 Hasta cantidadJugadores Hacer
+            Si juegoActivo Entonces
+                Borrar Pantalla
+                Escribir "----------------------------------------------------------------"
+                
+                Si esVsPC Y i = 2 Entonces
+                    Escribir "Turno de la COMPUTADORA (Jugador 2)..."
+                    procesarTurnoPC(i, posicionTabla, estadoFicha, tablero, cantidadJugadores, POSICION_META, juegoActivo)
+                    
+                Sino
+                    procesarTurnoJugador(i, posicionTabla, estadoFicha, tablero, cantidadJugadores, POSICION_META, juegoActivo)
+                    imprimirMatriz(tablero)
+                FinSi
+                
+                Si juegoActivo Entonces
+                    Escribir ""
+                    Escribir "Presione una tecla para finalizar su turno y pasar al siguiente..."
+                    Esperar Tecla
+                FinSi
+            FinSi
+        FinPara
+    FinMientras
+FinSubProceso
+ 
 SubProceso verificarCaptura(idJugador, posGlobal, posicionTabla Por Referencia, estadoFicha Por Referencia)
     Definir j, p Como Entero
     Definir globalRival Como Entero
