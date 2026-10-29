@@ -80,23 +80,38 @@ Algoritmo ProyectoFinalLaboratorio
 FinAlgoritmo
 
 SubProceso EjecutarTruco
-    Definir pMaximos, pJugador, pCPU, mazoIdx Como Entero
+    Definir pMaximos, pJugador, pCPU, mazoIdx, dificultadCPU, manoInicial Como Entero
     Definir nros, jers, envs, jNros, jJers, jEnvs, cNros, cJers, cEnvs Como Entero
     Definir palos, jPalos, cPalos Como Caracter
     Dimension nros[40], palos[40], jers[40], envs[40]
     Dimension jNros[3], jPalos[3], jJers[3], jEnvs[3]
     Dimension cNros[3], cPalos[3], cJers[3], cEnvs[3]
+
     pMaximos <- 15
     pJugador <- 0
     pCPU <- 0
     mazoIdx <- 0
+    manoInicial <- Azar(2) 
     ConfigurarPartida(pMaximos)
+    SubProceso MostrarMenuPrincipal(opcionMenu Por Referencia)
+    Borrar Pantalla
+    Escribir "========== DIFICULTAD DE LA CPU =========="
+    Escribir "1. Principiante: juega casi al azar y canta poco"
+    Escribir "2. Facil: prioriza cartas razonables"
+    Escribir "3. Dificil: calcula respuestas y conserva cartas fuertes"
+    Escribir "4. Experta: responde con la carta minima que gana y evalua apuestas"
+    Repetir
+        Escribir "Seleccione dificultad (1-4):"
+        Leer dificultadCPU
+    Hasta Que dificultadCPU >= 1 Y dificultadCPU <= 4
+
     Mientras pJugador < pMaximos Y pCPU < pMaximos Hacer
         CrearMazo(nros, palos, jers, envs)
         Barajar(nros, palos, jers, envs)
         mazoIdx <- 0
         Repartir(nros, palos, jers, envs, jNros, jPalos, jJers, jEnvs, cNros, cPalos, cJers, cEnvs, mazoIdx)
-        JugarRonda(jNros, jPalos, jJers, jEnvs, cNros, cPalos, cJers, cEnvs, pJugador, pCPU, pMaximos)
+        JugarRonda(jNros, jPalos, jJers, jEnvs, cNros, cPalos, cJers, cEnvs, pJugador, pCPU, pMaximos, dificultadCPU, manoInicial)
+        manoInicial <- 1 - manoInicial
     FinMientras
     Borrar Pantalla
     Escribir "================================================="
@@ -184,41 +199,116 @@ SubProceso DibujarCartasOcultasCPU
         Escribir Sin Saltar "|  ??   |   "
     FinPara
     Escribir ""
+	Para i <- 0 Hasta 2 Hacer
+        Escribir Sin Saltar "|  ??   |   "
+    FinPara
+	Escribir ""
     Para i <- 0 Hasta 2 Hacer
         Escribir Sin Saltar "+-------+   "
     FinPara
     Escribir ""
 FinSubProceso
 
-SubProceso DibujarMesaHistorial(historialMesa Por Referencia)
-    Escribir "========================================================================================"
-    Escribir "|                               --- CENTRO DE LA MESA ---                              |"
-    Escribir "========================================================================================"
-    Si historialMesa[0] <> "" Entonces 
-        Escribir "|  > ", historialMesa[0]
-    Sino
-        Escribir "|  > [Mano 1 Vacia]"
+Funcion abrev <- ObtenerAbrevPalo(palo)
+    Definir abrev Como Caracter
+    abrev <- "   "
+    Si palo = "Espada" Entonces 
+        abrev <- "Esp" 
     FinSi
-    Si historialMesa[1] <> "" Entonces 
-        Escribir "|  > ", historialMesa[1]  
-    Sino
-        Escribir "|  > [Mano 2 Vacia]"
+    Si palo = "Basto" Entonces 
+        abrev <- "Bas" 
     FinSi
-    Si historialMesa[2] <> "" Entonces 
-        Escribir "|  > ", historialMesa[2]  
-    Sino
-        Escribir "|  > [Mano 3 Vacia]"
+    Si palo = "Oro" Entonces 
+        abrev <- "Oro" 
     FinSi
+    Si palo = "Copa" Entonces 
+        abrev <- "Cop" 
+    FinSi
+FinFuncion
+
+SubProceso DibujarMesaHistorialGrafico(hJNros Por Referencia, hJPalos Por Referencia, hCNros Por Referencia, hCPalos Por Referencia)
+    Definir b Como Entero
+    Escribir ""
+    Escribir "|                               ---     PARTIDA     ---                                  |"
+    Escribir ""
+    Escribir "             MANO 1                       MANO 2                       MANO 3           "
+    Escribir "        "
+
+    // Fila 1: Borde superior
+    Para b <- 0 Hasta 2 Hacer
+        Si hJNros[b] <> 0 Entonces 
+            Escribir Sin Saltar "+-------+ " 
+        Sino 
+            Escribir Sin Saltar "          " 
+        FinSi
+        Si hCNros[b] <> 0 Entonces 
+            Escribir Sin Saltar "+-------+    " 
+        Sino 
+            Escribir Sin Saltar "             " 
+        FinSi
+    FinPara
+    Escribir ""
+
+    // Fila 2: Numero superior
+    Para b <- 0 Hasta 2 Hacer
+        Si hJNros[b] <> 0 Entonces
+            Si hJNros[b] < 10 Entonces 
+                Escribir Sin Saltar "| ", hJNros[b], "     | " 
+            Sino 
+                Escribir Sin Saltar "| ", hJNros[b], "    | " 
+            FinSi
+        Sino 
+            Escribir Sin Saltar "          " 
+        FinSi
+        Si hCNros[b] <> 0 Entonces
+            Si hCNros[b] < 10 Entonces 
+                Escribir Sin Saltar "| ", hCNros[b], "     |    " 
+            Sino 
+                Escribir Sin Saltar "| ", hCNros[b], "    |    " 
+            FinSi
+        Sino 
+            Escribir Sin Saltar "             " 
+        FinSi
+    FinPara
+    Escribir ""
+
+    // Fila 3: Palo abreviado
+    Para b <- 0 Hasta 2 Hacer
+        Si hJNros[b] <> 0 Entonces 
+            Escribir Sin Saltar "|  ", ObtenerAbrevPalo(hJPalos[b]), "  | " 
+        Sino 
+            Escribir Sin Saltar "          " 
+        FinSi
+        Si hCNros[b] <> 0 Entonces 
+            Escribir Sin Saltar "|  ", ObtenerAbrevPalo(hCPalos[b]), "  |    " 
+        Sino 
+            Escribir Sin Saltar "             " 
+        FinSi
+    FinPara
+    Escribir ""
+
+    // Fila 4: Borde inferior
+    Para b <- 0 Hasta 2 Hacer
+        Si hJNros[b] <> 0 Entonces 
+            Escribir Sin Saltar "+-------+ " 
+        Sino 
+            Escribir Sin Saltar "          " 
+        FinSi
+        Si hCNros[b] <> 0 Entonces 
+            Escribir Sin Saltar "+-------+    " 
+        Sino 
+            Escribir Sin Saltar "             " 
+        FinSi
+    FinPara
+    Escribir ""
     Escribir "----------------------------------------------------------------------------------------"
 FinSubProceso
 
 SubProceso DibujarCartasJugadorGrande(nros Por Referencia, palos Por Referencia, disp Por Referencia)
     Definir i Como Entero
     
-    // Guías numéricas arriba de las cartas
     Escribir "          [ 1 ]               [ 2 ]               [ 3 ]"
     
-    // Fila superior del borde de las cartas disponibles
     Para i <- 0 Hasta 2 Hacer
         Si disp[i] = 1 Entonces 
             Escribir Sin Saltar "        +-------+   " 
@@ -228,7 +318,6 @@ SubProceso DibujarCartasJugadorGrande(nros Por Referencia, palos Por Referencia,
     FinPara
     Escribir ""
     
-    // Fila con el número de la carta
     Para i <- 0 Hasta 2 Hacer
         Si disp[i] = 1 Entonces
             Si nros[i] < 10 Entonces
@@ -242,28 +331,15 @@ SubProceso DibujarCartasJugadorGrande(nros Por Referencia, palos Por Referencia,
     FinPara
     Escribir "   "
     
-    // Fila con el palo de la carta (abreviado a 3 letras para mantener diseño)
     Para i <- 0 Hasta 2 Hacer
         Si disp[i] = 1 Entonces
-            Si palos[i] = "Espada" Entonces 
-                Escribir Sin Saltar "        |  Esp  |   " 
-            FinSi
-            Si palos[i] = "Basto" Entonces 
-                Escribir Sin Saltar "        |  Bas  |   " 
-            FinSi
-            Si palos[i] = "Oro" Entonces 
-                Escribir Sin Saltar "        |  Oro  |   " 
-            FinSi
-            Si palos[i] = "Copa" Entonces 
-                Escribir Sin Saltar "        |  Cop  |   " 
-            FinSi
+            Escribir Sin Saltar "        |  ", ObtenerAbrevPalo(palos[i]), "  |   " 
         Sino
             Escribir Sin Saltar "            "
         FinSi
     FinPara
     Escribir "    "
     
-    // Fila inferior del número de la carta
     Para i <- 0 Hasta 2 Hacer
         Si disp[i] = 1 Entonces
             Si nros[i] < 10 Entonces
@@ -277,7 +353,6 @@ SubProceso DibujarCartasJugadorGrande(nros Por Referencia, palos Por Referencia,
     FinPara
     Escribir ""
 
-    // Fila inferior del borde de las cartas
     Para i <- 0 Hasta 2 Hacer
         Si disp[i] = 1 Entonces 
             Escribir Sin Saltar "        +-------+   " 
@@ -286,6 +361,74 @@ SubProceso DibujarCartasJugadorGrande(nros Por Referencia, palos Por Referencia,
         FinSi
     FinPara
     Escribir " "
+FinSubProceso
+
+
+SubProceso MostrarMenuPrincipal(opcionMenu Por Referencia)
+    opcionMenu <- 0
+    Borrar Pantalla
+    Escribir "   -  "
+    Escribir "  |  \  "
+    Escribir " _| $$_     ______   __    __   _______   ______"
+    Escribir "|   $$ \   /      \ |  \  |  \ /       \ /      \ "
+    Escribir " \$$$$$$  |  $$$$$$\| $$  | $$|  $$$$$$$|  $$$$$$\"
+    Escribir "  | $$ __ | $$   \$$| $$  | $$| $$      | $$  | $$"
+    Escribir "  | $$|  \| $$      | $$__/ $$| $$_____ | $$__/ $$"
+    Escribir "   \$$  $$| $$       \$$    $$ \$$     \ \$$    $$"
+    Escribir "    \$$$$  \$$        \$$$$$$   \$$$$$$$  \$$$$$$ "
+    Escribir " "
+    Escribir " "
+    Escribir "                        1                         "
+    Escribir "                  -------------                   "
+    Escribir "                 |    JUGAR    |                  "
+    Escribir "                  -------------                   "
+    Escribir " "
+    Escribir "                        2                         " 
+    Escribir "                  -------------                   "
+    Escribir "                 |    REGLAS   |                  "
+    Escribir "                  -------------                   "
+    Escribir " "
+    Escribir "                        3                         " 
+    Escribir "                  -------------                   "
+    Escribir "                 |    SALIR    |                  "
+    Escribir "                  -------------                   "
+    Escribir " "
+    Escribir " SELECCIONA UNA DE LAS OPCIONES PARA EMPEZAR A JUGAR O VOLVER AL MENU INICIAL.(1-2-3) "
+    Escribir " "
+    Leer opcionMenu
+    Borrar Pantalla
+    Mientras opcionMenu<>1 Y opcionMenu<>2 Y opcionMenu<>3 Hacer
+        Escribir "   -  "
+        Escribir "  |  \  "
+        Escribir " _| $$_     ______   __    __   _______   ______"
+        Escribir "|   $$ \   /      \ |  \  |  \ /       \ /      \ "
+        Escribir " \$$$$$$  |  $$$$$$\| $$  | $$|  $$$$$$$|  $$$$$$\"
+        Escribir "  | $$ __ | $$   \$$| $$  | $$| $$      | $$  | $$"
+        Escribir "  | $$|  \| $$      | $$__/ $$| $$_____ | $$__/ $$"
+        Escribir "   \$$  $$| $$       \$$    $$ \$$     \ \$$    $$"
+        Escribir "    \$$$$  \$$        \$$$$$$   \$$$$$$$  \$$$$$$ "
+        Escribir " "
+        Escribir " "
+        Escribir "                        1                         "
+        Escribir "                  -------------                   "
+        Escribir "                 |    JUGAR    |                  "
+        Escribir "                  -------------                   "
+        Escribir " "
+        Escribir "                        2                         " 
+        Escribir "                  -------------                   "
+        Escribir "                 |    REGLAS   |                  "
+        Escribir "                  -------------                   "
+        Escribir " "
+        Escribir "                        3                         " 
+        Escribir "                  -------------                   "
+        Escribir "                 |    SALIR    |                  "
+        Escribir "                  -------------                   "
+        Escribir " "
+        Escribir " SELECCIONA UNA DE LAS OPCIONES NUEVAMENTE. QUE SEAN UNA DE LAS DADAS (1-2-3) POR FAVOR. "
+        Escribir " "
+        Leer opcionMenu
+        Borrar Pantalla
+    FinMientras
 FinSubProceso
 
 SubProceso MostrarReglas
@@ -382,7 +525,7 @@ SubProceso InformacionDelTruco
     Escribir "@@!  @@@  @@!       !@@        @@!       @@!  @@@  !@@    "
     Escribir "!@!  @!@  !@!       !@!        !@!       !@!  @!@  !@!"
     Escribir "@!@!!@!   @!!!:!    !@! @!@!@  @!!       @!@!@!@!  !!@@!! "
-    Escribir "!!@!@!    !!!!!:    !!! !!@!!  !!!       !!!@!!!!   !!@!!! "
+    Escribir "!!@!@!    !!!!!:    !!! !!@!!  !!!       !!!@!!!!   !!@!!!"
     Escribir "!!: :!!   !!:       :!!   !!:  !!:       !!:  !!!       !:!"
     Escribir ":!:  !:!  :!:       :!:   !::   :!:      :!:  !:!      !:! "
     Escribir "::   :::   :: ::::   ::: ::::   :: ::::  ::   :::  :::: :: "
@@ -401,73 +544,6 @@ SubProceso InformacionDelTruco
     Escribir "========== PARDAS Y OTRAS REGLAS =========="
     Escribir ""
     Empates
-FinSubProceso
-
-SubProceso MostrarMenuPrincipal(opcionMenu Por Referencia)
-    opcionMenu <- 0
-    Borrar Pantalla
-    Escribir "   -  "
-    Escribir "  |  \  "
-    Escribir " _| $$_     ______   __    __   _______   ______"
-    Escribir "|   $$ \   /      \ |  \  |  \ /       \ /      \ "
-    Escribir " \$$$$$$  |  $$$$$$\| $$  | $$|  $$$$$$$|  $$$$$$\"
-    Escribir "  | $$ __ | $$   \$$| $$  | $$| $$      | $$  | $$"
-    Escribir "  | $$|  \| $$      | $$__/ $$| $$_____ | $$__/ $$"
-    Escribir "   \$$  $$| $$       \$$    $$ \$$     \ \$$    $$"
-    Escribir "    \$$$$  \$$        \$$$$$$   \$$$$$$$  \$$$$$$ "
-    Escribir " "
-    Escribir " "
-    Escribir "                        1                         "
-    Escribir "                  -------------                   "
-    Escribir "                 |    JUGAR    |                  "
-    Escribir "                  -------------                   "
-    Escribir " "
-    Escribir "                        2                         " 
-    Escribir "                  -------------                   "
-    Escribir "                 |    REGLAS   |                  "
-    Escribir "                  -------------                   "
-    Escribir " "
-    Escribir "                        3                         " 
-    Escribir "                  -------------                   "
-    Escribir "                 |    SALIR    |                  "
-    Escribir "                  -------------                   "
-    Escribir " "
-    Escribir " SELECCIONA UNA DE LAS OPCIONES PARA EMPEZAR A JUGAR O VOLVER AL MENU INICIAL.(1-2-3) "
-    Escribir " "
-    Leer opcionMenu
-    Borrar Pantalla
-    Mientras opcionMenu<>1 Y opcionMenu<>2 Y opcionMenu<>3 Hacer
-        Escribir "   -  "
-        Escribir "  |  \  "
-        Escribir " _| $$_     ______   __    __   _______   ______"
-        Escribir "|   $$ \   /      \ |  \  |  \ /       \ /      \ "
-        Escribir " \$$$$$$  |  $$$$$$\| $$  | $$|  $$$$$$$|  $$$$$$\"
-        Escribir "  | $$ __ | $$   \$$| $$  | $$| $$      | $$  | $$"
-        Escribir "  | $$|  \| $$      | $$__/ $$| $$_____ | $$__/ $$"
-        Escribir "   \$$  $$| $$       \$$    $$ \$$     \ \$$    $$"
-        Escribir "    \$$$$  \$$        \$$$$$$   \$$$$$$$  \$$$$$$ "
-        Escribir " "
-        Escribir " "
-        Escribir "                        1                         "
-        Escribir "                  -------------                   "
-        Escribir "                 |    JUGAR    |                  "
-        Escribir "                  -------------                   "
-        Escribir " "
-        Escribir "                        2                         " 
-        Escribir "                  -------------                   "
-        Escribir "                 |    REGLAS   |                  "
-        Escribir "                  -------------                   "
-        Escribir " "
-        Escribir "                        3                         " 
-        Escribir "                  -------------                   "
-        Escribir "                 |    SALIR    |                  "
-        Escribir "                  -------------                   "
-        Escribir " "
-        Escribir " SELECCIONA UNA DE LAS OPCIONES NUEVAMENTE. QUE SEAN UNA DE LAS DADAS (1-2-3) POR FAVOR. "
-        Escribir " "
-        Leer opcionMenu
-        Borrar Pantalla
-    FinMientras
 FinSubProceso
 
 SubProceso ConfigurarPartida(puntajeMaximo Por Referencia)
@@ -676,254 +752,526 @@ Funcion totalEnvido <- CalcularEnvido(palos Por Referencia, envs Por Referencia)
     totalEnvido <- maxEnvido
 FinFuncion
 
-SubProceso ResolverEnvido(tipo, eJ, eC, pJ Por Referencia, pC Por Referencia, pMax, estEnv Por Referencia)
-    Definir ptsGanados, ptsFalta Como Entero
+Funcion cantar <- DecidirEnvidoCPU(envidoC, dificultadCPU)
+    Definir cantar Como Logico
+    cantar <- Falso
+    Segun dificultadCPU Hacer
+        1: 
+            Si envidoC >= 30 Entonces 
+                cantar <- Verdadero 
+            FinSi
+        2: 
+            Si envidoC >= 28 O Azar(100) < 5 Entonces 
+                cantar <- Verdadero 
+            FinSi
+        3: 
+            Si envidoC >= 26 O Azar(100) < (dificultadCPU * 5) Entonces 
+                cantar <- Verdadero 
+            FinSi
+        4: 
+            Si envidoC >= 24 O Azar(100) < (dificultadCPU * 6) Entonces 
+                cantar <- Verdadero 
+            FinSi
+    FinSegun
+FinFuncion
+
+Funcion cantarT <- DecidirTrucoCPU(fuerzaC, dificultadCPU)
+    Definir cantarT Como Logico
+    cantarT <- Falso
+    Segun dificultadCPU Hacer
+        1: 
+            Si fuerzaC >= 8 Entonces 
+                cantarT <- Verdadero 
+            FinSi
+        2: 
+            Si fuerzaC >= 6 O Azar(100) < 5 Entonces 
+                cantarT <- Verdadero 
+            FinSi
+        3: 
+            Si fuerzaC >= 4 O Azar(100) < (dificultadCPU * 4) Entonces 
+                cantarT <- Verdadero 
+            FinSi
+        4: 
+            Si fuerzaC >= 3 O Azar(100) < (dificultadCPU * 5) Entonces 
+                cantarT <- Verdadero 
+            FinSi
+    FinSegun
+FinFuncion
+
+SubProceso ResolverEnvido(tipo, eJ, eC, pJ Por Referencia, pC Por Referencia, pMax, estEnv Por Referencia, dificultadCPU, manoInicial, hJNros Por Referencia, hJPalos Por Referencia, hCNros Por Referencia, hCPalos Por Referencia, dispJ Por Referencia)
+    Definir ptsGanados, falta, probabilidad, ganaJ, accion Como Entero
     Definir acepta Como Logico
     acepta <- Falso
-    ptsGanados <- 0
-    ptsFalta <- 0
-    
-    Si tipo = 1 Entonces
-        ptsGanados <- 2
-        Si eC >= 23 Entonces 
-            acepta <- Verdadero 
-        FinSi
-    FinSi
-    
-    Si tipo = 2 Entonces
-        ptsGanados <- 3
-        Si eC >= 26 Entonces 
-            acepta <- Verdadero 
-        FinSi
+    ptsGanados <- 2
+    Si tipo = 2 Entonces 
+        ptsGanados <- 3 
     FinSi
     Si tipo = 3 Entonces
         Si pJ > pC Entonces 
-            ptsFalta <- pMax - pJ 
+            falta <- pMax - pJ 
         Sino 
-            ptsFalta <- pMax - pC 
+            falta <- pMax - pC 
         FinSi
-        ptsGanados <- ptsFalta
-        Si eC >= 29 Entonces 
-            acepta <- Verdadero 
-        FinSi
+        ptsGanados <- falta
     FinSi
-    Si acepta = Verdadero Entonces
-        Escribir "CPU: ¡Quiero! (Tengo ", eC, " pts)"
-        Escribir "Tu envido es: ", eJ
-        Si eJ >= eC Entonces
-            Escribir "¡Ganaste el Envido! (+", ptsGanados, " ptos)"
+
+    probabilidad <- 25 + (dificultadCPU * 15) + (eC * 2)
+    Si probabilidad > 95 Entonces 
+        probabilidad <- 95 
+    FinSi
+    Si Azar(100) <= probabilidad Entonces 
+        acepta <- Verdadero 
+    FinSi
+
+    Si acepta Entonces
+        Escribir "CPU: ¡Quiero! Mi envido es ", eC, "."
+        Escribir "Tu envido es ", eJ, "."
+        ganaJ <- 0
+        Si eJ > eC Entonces
+            ganaJ <- 1
+        Sino
+            Si eJ = eC Y manoInicial = 0 Entonces 
+                ganaJ <- 1 
+            FinSi
+        FinSi
+        Si ganaJ = 1 Entonces
+            Escribir "Ganaste el envido: +", ptsGanados, " puntos."
             pJ <- pJ + ptsGanados
         Sino
-            Escribir "La CPU gana el Envido. (+", ptsGanados, " ptos)"
+            Escribir "La CPU gana el envido: +", ptsGanados, " puntos."
             pC <- pC + ptsGanados
         FinSi
     Sino
-        Escribir "CPU: No quiero."
-        Escribir "Ganaste 1 pto por rechazo."
+        Escribir "CPU: No quiero. Ganaste 1 punto por el rechazo."
         pJ <- pJ + 1
     FinSi
     estEnv <- 1
-    Esperar 3 Segundos
+    Escribir "Presione una tecla para continuar..."
+    Esperar Tecla
 FinSubProceso
 
-SubProceso ResolverTrucoJugador(estTruco Por Referencia, ptsTruco Por Referencia, turnoTruco Por Referencia, pJ Por Referencia, alMazo Por Referencia)
-    Definir ptsEnJuego Como Entero
-    ptsEnJuego <- 0
-    
-    Si estTruco = 0 Entonces
-        Escribir "Jugador: ¡Truco!"
-        ptsEnJuego <- 2
+SubProceso ResolverTrucoJugador(estTruco Por Referencia, ptsTruco Por Referencia, turnoTruco Por Referencia, pJ Por Referencia, pC Por Referencia, alMazo Por Referencia, dificultadCPU, fuerzaCPU)
+    Definir ptsSiguiente, probabilidad Como Entero
+    ptsSiguiente <- 2
+    Si estTruco = 1 Entonces 
+        ptsSiguiente <- 3 
     FinSi
-    Si estTruco = 1 Entonces
-        Escribir "Jugador: ¡Retruco!"
-        ptsEnJuego <- 3
+    Si estTruco = 2 Entonces 
+        ptsSiguiente <- 4 
     FinSi
-    Si estTruco = 2 Entonces
-        Escribir "Jugador: ¡Vale Cuatro!"
-        ptsEnJuego <- 4
+    Escribir "Jugador canta ", NombreCantoTruco(estTruco), "."
+    probabilidad <- 20 + dificultadCPU * 12 + fuerzaCPU * 2
+    Si probabilidad > 95 Entonces 
+        probabilidad <- 95 
     FinSi
-    
-    Esperar 1 Segundos
-    Si Azar(10) > 3 Entonces 
+    Si Azar(100) <= probabilidad Entonces
         Escribir "CPU: ¡Quiero!"
         estTruco <- estTruco + 1
-        ptsTruco <- ptsEnJuego
-        turnoTruco <- 2 
+        ptsTruco <- ptsSiguiente
+        turnoTruco <- 0
     Sino
-        Escribir "CPU: No quiero. Me voy al mazo."
+        Escribir "CPU: No quiero. La CPU se va al mazo."
         pJ <- pJ + ptsTruco
         alMazo <- Verdadero
     FinSi
     Esperar 2 Segundos
 FinSubProceso
 
-SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Referencia, jEnvs Por Referencia, cNros Por Referencia, cPalos Por Referencia, cJers Por Referencia, cEnvs Por Referencia, puntosJ Por Referencia, puntosC Por Referencia, pMaximos)
-    Definir dispJ, dispC Como Entero
-    Dimension dispJ[3], dispC[3]
-    Definir i, mano, jCarta, cCarta, ganadasJ, ganadasC Como Entero
-    Definir envidoCantado, envidoJ, envidoC Como Entero
-    Definir estTruco, ptsTruco, turnoTruco Como Entero
-    Definir msjMesa, historialMesa Como Caracter
-    Dimension historialMesa[3]
-    Definir accion, cartaSel Como Entero
-    Definir turnoValido, flagC, alMazo Como Logico
-    
-    historialMesa[0] <- ""
-    historialMesa[1] <- ""
-    historialMesa[2] <- ""
-    
+Funcion nombre <- NombreCantoTruco(nivel)
+    Definir nombre Como Caracter
+    Segun nivel Hacer
+        0: nombre <- "¡Truco!"
+        1: nombre <- "¡Retruco!"
+        2: nombre <- "¡Vale cuatro!"
+        De Otro Modo: nombre <- "Truco"
+    FinSegun
+FinFuncion
+
+Funcion carta <- ElegirCartaCPU(cJers Por Referencia, dispC Por Referencia, jerJugador, responde, dificultadCPU)
+    Definir carta, i, menorDisponible, mejorGanadora, fuerzaElegida Como Entero
+    Definir opciones, cantidad, elegido Como Entero
+    Dimension opciones[3]
+    carta <- -1
+    menorDisponible <- -1
+    mejorGanadora <- -1
+    fuerzaElegida <- 999
+    Para i <- 0 Hasta 2 Hacer
+        Si dispC[i] = 1 Entonces
+            Si menorDisponible = -1 O cJers[i] < cJers[menorDisponible] Entonces
+                menorDisponible <- i
+            FinSi
+            Si responde = 1 Y cJers[i] > jerJugador Entonces
+                Si mejorGanadora = -1 O cJers[i] < cJers[mejorGanadora] Entonces
+                    mejorGanadora <- i
+                FinSi
+            FinSi
+        FinSi
+    FinPara
+    Si responde = 1 Y dificultadCPU >= 3 Y mejorGanadora <> -1 Entonces
+        carta <- mejorGanadora
+    Sino
+        Si dificultadCPU = 1 Entonces
+            cantidad <- 0
+            Para i <- 0 Hasta 2 Hacer
+                Si dispC[i] = 1 Entonces
+                    opciones[cantidad] <- i
+                    cantidad <- cantidad + 1
+                FinSi
+            FinPara
+            elegido <- Azar(cantidad)
+            carta <- opciones[elegido]
+        Sino
+            Si responde = 1 Y mejorGanadora <> -1 Entonces
+                carta <- mejorGanadora
+            Sino
+                Si menorDisponible <> -1 Entonces
+                    Si dificultadCPU = 2 Y Azar(2) = 1 Entonces
+                        carta <- Azar(3)
+                        Mientras dispC[carta] = 0 Hacer
+                            carta <- Azar(3)
+                        FinMientras
+                    Sino
+                        carta <- menorDisponible
+                    FinSi
+                FinSi
+            FinSi
+        FinSi
+    FinSi
+FinFuncion
+
+Funcion fuerza <- FuerzaManoCPU(jers Por Referencia)
+    Definir i, fuerza Como Entero
+    fuerza <- 0
+    Para i <- 0 Hasta 2 Hacer
+        Si jers[i] >= 10 Entonces
+            fuerza <- fuerza + 3
+        Sino
+            Si jers[i] >= 7 Entonces
+                fuerza <- fuerza + 2
+            Sino
+                Si jers[i] >= 4 Entonces
+                    fuerza <- fuerza + 1
+                FinSi
+            FinSi
+        FinSi
+    FinPara
+FinFuncion
+
+SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Referencia, jEnvs Por Referencia, cNros Por Referencia, cPalos Por Referencia, cJers Por Referencia, cEnvs Por Referencia, puntosJ Por Referencia, puntosC Por Referencia, pMaximos, dificultadCPU, manoInicial Por Referencia)
+    Definir dispJ, dispC, resultadoMano Como Entero
+    Dimension dispJ[3], dispC[3], resultadoMano[3]
+
+    Definir hJNros, hCNros Como Entero
+    Definir hJPalos, hCPalos Como Caracter
+    Dimension hJNros[3], hCNros[3], hJPalos[3], hCPalos[3]
+
+    Definir i, mano, jugadorLider, turno, cartaSel, jCarta, cCarta, ganador, ganadasJ, ganadasC Como Entero
+    Definir envidoCantado, envidoJ, envidoC, estTruco, ptsTruco, turnoTruco, accion Como Entero
+    Definir alMazo, turnoValido, primerCarta, puedeSubirJ Como Logico
+    Definir msjMesa Como Caracter
+
     Para i <- 0 Hasta 2 Hacer
         dispJ[i] <- 1
         dispC[i] <- 1
+        resultadoMano[i] <- 0
+        hJNros[i] <- 0
+        hCNros[i] <- 0
+        hJPalos[i] <- ""
+        hCPalos[i] <- ""
     FinPara
-    
     ganadasJ <- 0
     ganadasC <- 0
     envidoCantado <- 0
-    estTruco <- 0    
-    ptsTruco <- 1    
-    turnoTruco <- 0  
+    estTruco <- 0
+    ptsTruco <- 1
+    turnoTruco <- 0
     alMazo <- Falso
-    jCarta <- 0
-    cCarta <- 0
-    accion <- 0
-    cartaSel <- 0
-    i <- 0
-    
+    primerCarta <- Verdadero
+    puedeSubirJ <- Verdadero
+    jCarta <- -1
+    cCarta <- -1
+    mano <- 0
+    jugadorLider <- manoInicial 
     envidoJ <- CalcularEnvido(jPalos, jEnvs)
     envidoC <- CalcularEnvido(cPalos, cEnvs)
-    
-    Para mano <- 1 Hasta 3 Hacer
-        turnoValido <- Falso
-        
-        Repetir
+
+    Mientras mano < 3 Y alMazo = Falso Y puntosJ < pMaximos Y puntosC < pMaximos Hacer
+        Si jugadorLider = 0 Entonces
+            turno <- 0
+        Sino
+            turno <- 1
+        FinSi
+        jCarta <- -1
+        cCarta <- -1
+
+        Mientras (jCarta = -1 O cCarta = -1) Y alMazo = Falso Hacer
             Borrar Pantalla
             Escribir "========================================================================================"
             Escribir "|                                  MESA DE TRUCO ARGENTO                               |"
             Escribir "========================================================================================"
-            Escribir "|  [ NOSOTROS ]: ", puntosJ, " / ", pMaximos, "                    [ ELLOS ]: ", puntosC, " / ", pMaximos, "       |"
+            Escribir "| NOSOTROS: ", puntosJ, " / ", pMaximos, "                  CPU: ", puntosC, " / ", pMaximos, " |"
             Escribir "----------------------------------------------------------------------------------------"
             Escribir "Cartas CPU:"
             DibujarCartasOcultasCPU
-            
             Escribir ""
-            DibujarMesaHistorial(historialMesa)
-            
-            Escribir "Tus Cartas (Mano ", mano, "):"
+            DibujarMesaHistorialGrafico(hJNros, hJPalos, hCNros, hCPalos)
+            Escribir "Tus cartas:"
             DibujarCartasJugadorGrande(jNros, jPalos, dispJ)
-            Escribir "========================================================================================"
-            Escribir "ACCIONES DE JUEGO:"
-            Escribir "1. Jugar Carta"
-            
-            Si mano = 1 Y envidoCantado = 0 Entonces
-                Escribir "2. Cantar Envido (2 pts)   |  3. Cantar Real Envido (3 pts)  |  4. Cantar Falta Envido"
-            FinSi
-            
-            Si turnoTruco = 0 O turnoTruco = 1 Entonces
-                Si estTruco = 0 Entonces 
-                    Escribir "5. Cantar Truco (2 pts)" 
+            Escribir "Mano ", mano + 1, " | Mano ganadas: jugador ", ganadasJ, " - CPU ", ganadasC
+
+            Si turno = 0 Entonces
+                Escribir "Te toca jugar."
+                Escribir "1. Jugar carta"
+                Si primerCarta Y envidoCantado = 0 Entonces
+                    Escribir "2. Cantar Envido"
+                    Escribir "3. Cantar Real Envido"
+                    Escribir "4. Cantar Falta Envido"
                 FinSi
-                Si estTruco = 1 Entonces 
-                    Escribir "5. Cantar Retruco (3 pts)" 
+                Si estTruco < 3 Y puedeSubirJ Entonces
+                    Escribir "5. Cantar/subir Truco"
                 FinSi
-                Si estTruco = 2 Entonces 
-                    Escribir "5. Cantar Vale Cuatro (4 pts)" 
-                FinSi
-            FinSi
-            
-            Escribir "6. Irse al Mazo"
-            Escribir "========================================================================================"
-            Escribir "Seleccione una opción:"
-            Leer accion
-            
-            Si accion = 6 Entonces
-                Escribir "Te fuiste al mazo..."
-                puntosC <- puntosC + ptsTruco
-                alMazo <- Verdadero
-                turnoValido <- Verdadero
-                Esperar 2 Segundos
-            Sino
-                Si (accion >= 2 Y accion <= 4) Y mano = 1 Y envidoCantado = 0 Entonces
-                    ResolverEnvido(accion - 1, envidoJ, envidoC, puntosJ, puntosC, pMaximos, envidoCantado)
-                Sino
-                    Si accion = 5 Y (turnoTruco = 0 O turnoTruco = 1) Y estTruco < 3 Entonces
-                        ResolverTrucoJugador(estTruco, ptsTruco, turnoTruco, puntosJ, alMazo)
-                        Si alMazo = Verdadero Entonces
-                            turnoValido <- Verdadero
-                        FinSi
-                    Sino
-                        Si accion = 1 Entonces
-                            Escribir "Seleccione carta a jugar (1, 2 o 3):"
+                Escribir "6. Irse al mazo"
+                Leer accion
+                Segun accion Hacer
+                    1:
+                        Repetir
+                            Escribir "Seleccione una carta disponible (1, 2 o 3):"
                             Leer cartaSel
                             cartaSel <- cartaSel - 1
-                            Si cartaSel >= 0 Y cartaSel <= 2 Entonces
-                                Si dispJ[cartaSel] = 1 Entonces
-                                    turnoValido <- Verdadero
-                                Sino
-                                    Escribir "Carta ya jugada, seleccione otra."
-                                    Esperar 1 Segundos
+                            turnoValido <- cartaSel >= 0 Y cartaSel <= 2
+                            Si turnoValido Entonces
+                                Si dispJ[cartaSel] = 0 Entonces
+                                    turnoValido <- Falso
                                 FinSi
-                            Sino
-                                Escribir "Opción incorrecta."
-                                Esperar 1 Segundos
                             FinSi
+                            Si turnoValido = Falso Entonces
+                                Escribir "Esa carta no esta disponible."
+                            FinSi
+                        Hasta Que turnoValido
+                        jCarta <- cartaSel
+                        dispJ[jCarta] <- 0
+                        
+                        hJNros[mano] <- jNros[jCarta]
+                        hJPalos[mano] <- jPalos[jCarta]
+                        
+                        puedeSubirJ <- Verdadero 
+                        primerCarta <- Falso 
+                        turno <- 1
+                    2, 3, 4:
+                        Si primerCarta Y envidoCantado = 0 Entonces
+                            ResolverEnvido(accion - 1, envidoJ, envidoC, puntosJ, puntosC, pMaximos, envidoCantado, dificultadCPU, manoInicial, hJNros, hJPalos, hCNros, hCPalos, dispJ)
+                        Sino
+                            Escribir "El envido solo se puede cantar antes de la primera carta."
+                            Esperar 1 Segundos
+                        FinSi
+                    5:
+                        Si estTruco < 3 Entonces
+                            ResolverTrucoJugador(estTruco, ptsTruco, turnoTruco, puntosJ, puntosC, alMazo, dificultadCPU, FuerzaManoCPU(cJers))
+                            Si alMazo = Falso Entonces
+                                puedeSubirJ <- Falso 
+                            FinSi
+                        FinSi
+                    6:
+                        Escribir "Te fuiste al mazo."
+                        puntosC <- puntosC + ptsTruco
+                        alMazo <- Verdadero
+                    De Otro Modo:
+                        Escribir "Opcion invalida."
+                        Esperar 1 Segundos
+                FinSegun
+            Sino
+                Escribir "La CPU esta pensando..."
+                
+                Si primerCarta Y envidoCantado = 0 Entonces
+                    Si DecidirEnvidoCPU(envidoC, dificultadCPU) Entonces
+                        Borrar Pantalla
+                        Escribir "========================================================================================"
+                        Escribir "|                                         MESA                                          |"
+                        Escribir "========================================================================================"
+                        Escribir "| NOSOTROS: ", puntosJ, " / ", pMaximos, "                  CPU: ", puntosC, " / ", pMaximos, " |"
+                        Escribir "----------------------------------------------------------------------------------------"
+                        Escribir "Cartas CPU:"
+                        DibujarCartasOcultasCPU
+                        Escribir ""
+                        DibujarMesaHistorialGrafico(hJNros, hJPalos, hCNros, hCPalos)
+                        Escribir "Tus cartas:"
+                        DibujarCartasJugadorGrande(jNros, jPalos, dispJ)
+                        Escribir ""
+                        Escribir "¡ATENCIÓN! La CPU canta ENVIDO."
+                        Escribir "1. Quiero"
+                        Escribir "2. No quiero"
+                        Leer accion
+                        Si accion = 1 Entonces
+                            ResolverEnvidoCPU(envidoJ, envidoC, puntosJ, puntosC, pMaximos, envidoCantado, dificultadCPU, manoInicial)
+                        Sino
+                            puntosC <- puntosC + 1
+                            envidoCantado <- 1
+                            Escribir "Rechazaste el envido: la CPU suma 1 punto."
+                            Escribir "Presione una tecla para continuar..."
+                            Esperar Tecla
                         FinSi
                     FinSi
                 FinSi
-            FinSi
-        Hasta Que turnoValido = Verdadero
-        
-        Si alMazo = Falso Entonces
-            jCarta <- cartaSel
-            dispJ[jCarta] <- 0
-            
-            flagC <- Falso
-            Para i <- 0 Hasta 2 Hacer
-                Si dispC[i] = 1 Y flagC = Falso Entonces
-                    cCarta <- i
-                    dispC[i] <- 0
-                    flagC <- Verdadero
+                
+                Si alMazo = Falso Y estTruco = 0 Y (jCarta <> -1 O manoInicial = 1) Entonces
+                    Si DecidirTrucoCPU(FuerzaManoCPU(cJers), dificultadCPU) Entonces
+                        Borrar Pantalla
+                        Escribir "CPU canta TRUCO."
+                        Escribir "1. Quiero   2. No quiero"
+                        Leer accion
+                        Si accion = 1 Entonces
+                            estTruco <- 1
+                            ptsTruco <- 2
+                            turnoTruco <- 1
+                        Sino
+                            puntosC <- puntosC + ptsTruco
+                            alMazo <- Verdadero
+                            Escribir "No quisiste. La CPU suma ", ptsTruco, " punto(s)."
+                            Esperar 2 Segundos
+                        FinSi
+                    FinSi
                 FinSi
-            FinPara
-            
-            msjMesa <- "Mano " + ConvertirATexto(mano) + " -> Tu: " + ConvertirATexto(jNros[jCarta]) + " " + jPalos[jCarta] + " vs CPU: " + ConvertirATexto(cNros[cCarta]) + " " + cPalos[cCarta]
-            
+                
+                Si alMazo = Falso Entonces
+                    Si jCarta <> -1 Entonces
+                        cartaSel <- ElegirCartaCPU(cJers, dispC, jJers[jCarta], 1, dificultadCPU)
+                    Sino
+                        cartaSel <- ElegirCartaCPU(cJers, dispC, 0, 0, dificultadCPU)
+                    FinSi
+                    cCarta <- cartaSel
+                    dispC[cCarta] <- 0
+                    
+                    hCNros[mano] <- cNros[cCarta]
+                    hCPalos[mano] <- cPalos[cCarta]
+                    
+                    primerCarta <- Falso 
+                    turno <- 0
+                FinSi
+            FinSi
+        FinMientras
+
+        Si alMazo = Falso Y jCarta <> -1 Y cCarta <> -1 Entonces
+            msjMesa <- "Resultado Mano " + ConvertirATexto(mano + 1) + ": "
             Si jJers[jCarta] > cJers[cCarta] Entonces
-                msjMesa <- msjMesa + " (¡Ganaste la baza!)"
+                ganador <- 0
                 ganadasJ <- ganadasJ + 1
+                resultadoMano[mano] <- 1
+                msjMesa <- msjMesa + "Gana el Jugador."
             Sino
                 Si cJers[cCarta] > jJers[jCarta] Entonces
-                    msjMesa <- msjMesa + " (Gana la CPU)"
+                    ganador <- 1
                     ganadasC <- ganadasC + 1
+                    resultadoMano[mano] <- 2
+                    msjMesa <- msjMesa + "Gana la CPU."
                 Sino
-                    msjMesa <- msjMesa + " (Parda)"
-                    ganadasJ <- ganadasJ + 1
-                    ganadasC <- ganadasC + 1
+                    ganador <- 2
+                    resultadoMano[mano] <- 0
+                    msjMesa <- msjMesa + "Empate (Parda)."
                 FinSi
             FinSi
             
-            historialMesa[mano - 1] <- msjMesa
             Borrar Pantalla
+            Escribir "========================================================================================"
+            Escribir "|                                         MESA                                          |"
+            Escribir "========================================================================================"
+            Escribir "| NOSOTROS: ", puntosJ, " / ", pMaximos, "                  CPU: ", puntosC, " / ", pMaximos, " |"
+            Escribir "----------------------------------------------------------------------------------------"
+            Escribir "Cartas CPU:"
+            DibujarCartasOcultasCPU
+            Escribir ""
+            DibujarMesaHistorialGrafico(hJNros, hJPalos, hCNros, hCPalos)
+            Escribir "Tus cartas:"
+            DibujarCartasJugadorGrande(jNros, jPalos, dispJ)
             Escribir msjMesa
             Esperar 2 Segundos
-            
-            Si ganadasJ >= 2 O ganadasC >= 2 Entonces
-                Si ganadasJ >= 2 Entonces
-                    Escribir "¡GANASTE LA RONDA! (+", ptsTruco, " pts de Truco)"
+
+            Si ganador = 0 Entonces
+                jugadorLider <- 0
+            Sino
+                Si ganador = 1 Entonces
+                    jugadorLider <- 1
+                FinSi
+            FinSi
+            mano <- mano + 1
+        FinSi
+
+        Si ganadasJ >= 2 O ganadasC >= 2 Entonces
+            mano <- 3
+        FinSi
+    FinMientras
+
+    Si alMazo = Falso Entonces
+        ganador <- DeterminarGanadorRonda(resultadoBaza, ganadasJ, ganadasC, manoInicial)
+        Si ganador = 0 Entonces
+            Escribir "GANASTE LA RONDA. +", ptsTruco, " puntos."
+            puntosJ <- puntosJ + ptsTruco
+        Sino
+            Si ganador = 1 Entonces
+                Escribir "LA CPU GANA LA RONDA. +", ptsTruco, " puntos."
+                puntosC <- puntosC + ptsTruco
+            Sino
+                Escribir "Las tres bazas fueron pardas: gana la mano (quien salio primero). +", ptsTruco, " puntos."
+                Si manoInicial = 0 Entonces
                     puntosJ <- puntosJ + ptsTruco
                 Sino
-                    Escribir "LA CPU GANA LA RONDA. (+", ptsTruco, " pts de Truco)"
                     puntosC <- puntosC + ptsTruco
                 FinSi
-                Esperar 2 Segundos
-                mano <- 4 
             FinSi
-        Sino
-            mano <- 4 
         FinSi
-    FinPara
+    FinSi
+    Esperar 2 Segundos
 FinSubProceso
 
+Funcion ganador <- DeterminarGanadorRonda(resultadoMano Por Referencia, ganadasJ, ganadasC, manoInicial)
+    Definir ganador Como Entero
+    ganador <- 2
+    Si resultadoMano[0] <> 0 Entonces
+        Si resultadoMano[1] = 0 O resultadoMano[1] = resultadoMano[0] Entonces
+            ganador <- resultadoMano[0] - 1
+        Sino
+            Si resultadoMano[2] = 0 Entonces
+                ganador <- resultadoMano[0] - 1
+            Sino
+                ganador <- resultadoMano[2] - 1
+            FinSi
+        FinSi
+    Sino
+        Si resultadoMano[1] <> 0 Entonces
+            ganador <- resultadoMano[1] - 1
+        Sino
+            Si resultadoMano[2] <> 0 Entonces
+                ganador <- resultadoMano[2] - 1
+            Sino
+                ganador <- manoInicial
+            FinSi
+        FinSi
+    FinSi
+FinFuncion
+
+SubProceso ResolverEnvidoCPU(eJ, eC, pJ Por Referencia, pC Por Referencia, pMax, estEnv Por Referencia, dificultadCPU, manoInicial)
+    Definir puntos, ganaCPU Como Entero
+    puntos <- 2
+    Si eC > eJ Entonces
+        ganaCPU <- 1
+    Sino
+        Si eC = eJ Y manoInicial = 1 Entonces
+            ganaCPU <- 1
+        Sino
+            ganaCPU <- 0
+        FinSi
+    FinSi
+    Si ganaCPU = 1 Entonces
+        pC <- pC + puntos
+        Escribir "La CPU gana el envido (+2). Sus puntos: ", eC, " | Tus puntos: ", eJ
+    Sino
+        pJ <- pJ + puntos
+        Escribir "Ganaste el envido (+2). Tu puntaje: ", eJ, " | Puntos CPU: ", eC
+    FinSi
+    estEnv <- 1
+    Escribir "Presione una tecla para continuar..."
+    Esperar Tecla
+FinSubProceso
+//LUDO
 SubProceso verificarCaptura(idJugador, posGlobal, posicionTabla Por Referencia, estadoFicha Por Referencia)
     Definir j, p Como Entero
     Definir globalRival Como Entero
