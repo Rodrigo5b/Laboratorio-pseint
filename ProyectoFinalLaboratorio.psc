@@ -172,73 +172,117 @@ FinSubProceso
 
 SubProceso DibujarCartasOcultasCPU
     Definir i Como Entero
-    i <- 0
     Para i <- 0 Hasta 2 Hacer
-        Escribir Sin Saltar "+----+    "
+        Escribir Sin Saltar "+-------+   "
     FinPara
     Escribir ""
     Para i <- 0 Hasta 2 Hacer
-        Escribir Sin Saltar "| ?? |    "
+        Escribir Sin Saltar "|  ??   |   "
     FinPara
     Escribir ""
     Para i <- 0 Hasta 2 Hacer
-        Escribir Sin Saltar "| ?? |    "
+        Escribir Sin Saltar "|  ??   |   "
     FinPara
     Escribir ""
     Para i <- 0 Hasta 2 Hacer
-        Escribir Sin Saltar "+----+    "
+        Escribir Sin Saltar "+-------+   "
     FinPara
     Escribir ""
 FinSubProceso
 
-SubProceso DibujarCartasJugador(nros Por Referencia, palos Por Referencia, disp Por Referencia)
+SubProceso DibujarMesaHistorial(historialMesa Por Referencia)
+    Escribir "========================================================================================"
+    Escribir "|                               --- CENTRO DE LA MESA ---                              |"
+    Escribir "========================================================================================"
+    Si historialMesa[0] <> "" Entonces 
+        Escribir "|  > ", historialMesa[0]
+    Sino
+        Escribir "|  > [Mano 1 Vacia]"
+    FinSi
+    Si historialMesa[1] <> "" Entonces 
+        Escribir "|  > ", historialMesa[1]  
+    Sino
+        Escribir "|  > [Mano 2 Vacia]"
+    FinSi
+    Si historialMesa[2] <> "" Entonces 
+        Escribir "|  > ", historialMesa[2]  
+    Sino
+        Escribir "|  > [Mano 3 Vacia]"
+    FinSi
+    Escribir "----------------------------------------------------------------------------------------"
+FinSubProceso
+
+SubProceso DibujarCartasJugadorGrande(nros Por Referencia, palos Por Referencia, disp Por Referencia)
     Definir i Como Entero
-    i <- 0
-    Escribir "   1.         2.         3."
+    
+    // GuÃ­as numÃ©ricas arriba de las cartas
+    Escribir "     [ 1 ]                   [ 2 ]                   [ 3 ]"
+    
+    // Fila superior del borde de las cartas disponibles
     Para i <- 0 Hasta 2 Hacer
         Si disp[i] = 1 Entonces 
-            Escribir Sin Saltar "+----+    " 
+            Escribir Sin Saltar "+-------+   " 
         Sino 
-            Escribir Sin Saltar "          " 
+            Escribir Sin Saltar "            " 
         FinSi
     FinPara
     Escribir ""
+    
+    // Fila con el nÃºmero de la carta
     Para i <- 0 Hasta 2 Hacer
         Si disp[i] = 1 Entonces
             Si nros[i] < 10 Entonces
-                Escribir Sin Saltar "| ", nros[i], "  |    "
+                Escribir Sin Saltar "| ", nros[i], "    |   "
             Sino
-                Escribir Sin Saltar "| ", nros[i], " |    "
+                Escribir Sin Saltar "| ", nros[i], "   |   "
             FinSi
         Sino
-            Escribir Sin Saltar "          "
+            Escribir Sin Saltar "            "
         FinSi
     FinPara
     Escribir ""
+    
+    // Fila con el palo de la carta (abreviado a 3 letras para mantener diseÃ±o)
     Para i <- 0 Hasta 2 Hacer
         Si disp[i] = 1 Entonces
             Si palos[i] = "Espada" Entonces 
-                Escribir Sin Saltar "|Esp |    " 
+                Escribir Sin Saltar "|  Esp  |   " 
             FinSi
             Si palos[i] = "Basto" Entonces 
-                Escribir Sin Saltar "|Bas |    " 
+                Escribir Sin Saltar "|  Bas  |   " 
             FinSi
             Si palos[i] = "Oro" Entonces 
-                Escribir Sin Saltar "|Oro |    " 
+                Escribir Sin Saltar "|  Oro  |   " 
             FinSi
             Si palos[i] = "Copa" Entonces 
-                Escribir Sin Saltar "|Cop |    " 
+                Escribir Sin Saltar "|  Cop  |   " 
             FinSi
         Sino
-            Escribir Sin Saltar "          "
+            Escribir Sin Saltar "            "
         FinSi
     FinPara
     Escribir ""
+    
+    // Fila inferior del nÃºmero de la carta
+    Para i <- 0 Hasta 2 Hacer
+        Si disp[i] = 1 Entonces
+            If nros[i] < 10 Entonces
+                Escribir Sin Saltar "|    ", nros[i], "  |   "
+            Sino
+                Escribir Sin Saltar "|   ", nros[i], "  |   "
+            FinIf
+        Sino
+            Escribir Sin Saltar "            "
+        FinSi
+    FinPara
+    Escribir ""
+
+    // Fila inferior del borde de las cartas
     Para i <- 0 Hasta 2 Hacer
         Si disp[i] = 1 Entonces 
-            Escribir Sin Saltar "+----+    " 
+            Escribir Sin Saltar "+-------+   " 
         Sino 
-            Escribir Sin Saltar "          " 
+            Escribir Sin Saltar "            " 
         FinSi
     FinPara
     Escribir ""
@@ -713,7 +757,7 @@ SubProceso ResolverTrucoJugador(estTruco Por Referencia, ptsTruco Por Referencia
     Esperar 2 Segundos
 FinSubProceso
 
-SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Referencia, jEnvs Por Referencia, cNros Por Referencia, cPalos Por Referencia, cJers Por Referencia, cEnvs Por Referencia, puntosJ Por Referencia, puntosC Por Referencia, pMaximos)
+FinSubProcesoSubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Referencia, jEnvs Por Referencia, cNros Por Referencia, cPalos Por Referencia, cJers Por Referencia, cEnvs Por Referencia, puntosJ Por Referencia, puntosC Por Referencia, pMaximos)
     Definir dispJ, dispC Como Entero
     Dimension dispJ[3], dispC[3]
     Definir i, mano, jCarta, cCarta, ganadasJ, ganadasC Como Entero
@@ -754,35 +798,25 @@ SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Ref
         
         Repetir
             Borrar Pantalla
-            Escribir "================================================="
-            Escribir "PUNTAJE -> Jugador: ", puntosJ, " / ", pMaximos, " | CPU: ", puntosC, " / ", pMaximos
-            Escribir "================================================="
+            Escribir "========================================================================================"
+            Escribir "|                                  MESA DE TRUCO ARGENTO                               |"
+            Escribir "========================================================================================"
+            Escribir "|  [ NOSOTROS ]: ", puntosJ, " / ", pMaximos, "                    [ ELLOS ]: ", puntosC, " / ", pMaximos, "       |"
+            Escribir "----------------------------------------------------------------------------------------"
             Escribir "Cartas CPU:"
             DibujarCartasOcultasCPU
-            Escribir "================================================="
-            Escribir "MESA HISTORIAL:"
             
-            Si historialMesa[0] <> "" Entonces 
-                Escribir historialMesa[0] 
-            FinSi
-            Si historialMesa[1] <> "" Entonces 
-                Escribir historialMesa[1] 
-            FinSi
-            Si historialMesa[2] <> "" Entonces 
-                Escribir historialMesa[2] 
-            FinSi
+            Escribir ""
+            DibujarMesaHistorial(historialMesa)
             
-            Escribir "================================================="
-            Escribir "Tus Cartas:"
-            DibujarCartasJugador(jNros, jPalos, dispJ)
-            Escribir "================================================="
-            Escribir "ACCIONES (Mano ", mano, "):"
+            Escribir "Tus Cartas (Mano ", mano, "):"
+            DibujarCartasJugadorGrande(jNros, jPalos, dispJ)
+            Escribir "========================================================================================"
+            Escribir "ACCIONES DE JUEGO:"
             Escribir "1. Jugar Carta"
             
             Si mano = 1 Y envidoCantado = 0 Entonces
-                Escribir "2. Cantar Envido (2 pts)"
-                Escribir "3. Cantar Real Envido (3 pts)"
-                Escribir "4. Cantar Falta Envido (Ganar/Faltantes)"
+                Escribir "2. Cantar Envido (2 pts)   |  3. Cantar Real Envido (3 pts)  |  4. Cantar Falta Envido"
             FinSi
             
             Si turnoTruco = 0 O turnoTruco = 1 Entonces
@@ -798,7 +832,8 @@ SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Ref
             FinSi
             
             Escribir "6. Irse al Mazo"
-            Escribir "Seleccione:"
+            Escribir "========================================================================================"
+            Escribir "Seleccione una opciÃ³n:"
             Leer accion
             
             Si accion = 6 Entonces
@@ -829,7 +864,7 @@ SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Ref
                                     Esperar 1 Segundos
                                 FinSi
                             Sino
-                                Escribir "Opcion incorrecta."
+                                Escribir "OpciÃ³n incorrecta."
                                 Esperar 1 Segundos
                             FinSi
                         FinSi
@@ -851,14 +886,14 @@ SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Ref
                 FinSi
             FinPara
             
-            msjMesa <- "Mano " + ConvertirATexto(mano) + " -> Jug: " + ConvertirATexto(jNros[jCarta]) + " " + jPalos[jCarta] + " | CPU: " + ConvertirATexto(cNros[cCarta]) + " " + cPalos[cCarta]
+            msjMesa <- "Mano " + ConvertirATexto(mano) + " -> Tu: " + ConvertirATexto(jNros[jCarta]) + " " + jPalos[jCarta] + " vs CPU: " + ConvertirATexto(cNros[cCarta]) + " " + cPalos[cCarta]
             
             Si jJers[jCarta] > cJers[cCarta] Entonces
-                msjMesa <- msjMesa + " (Ganaste)"
+                msjMesa <- msjMesa + " (Â¡Ganaste la baza!)"
                 ganadasJ <- ganadasJ + 1
             Sino
                 Si cJers[cCarta] > jJers[jCarta] Entonces
-                    msjMesa <- msjMesa + " (Gana CPU)"
+                    msjMesa <- msjMesa + " (Gana la CPU)"
                     ganadasC <- ganadasC + 1
                 Sino
                     msjMesa <- msjMesa + " (Parda)"
@@ -874,7 +909,7 @@ SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Ref
             
             Si ganadasJ >= 2 O ganadasC >= 2 Entonces
                 Si ganadasJ >= 2 Entonces
-                    Escribir "¡GANASTE LA RONDA! (+", ptsTruco, " pts de Truco)"
+                    Escribir "Â¡GANASTE LA RONDA! (+", ptsTruco, " pts de Truco)"
                     puntosJ <- puntosJ + ptsTruco
                 Sino
                     Escribir "LA CPU GANA LA RONDA. (+", ptsTruco, " pts de Truco)"
@@ -904,7 +939,7 @@ SubProceso verificarCaptura(idJugador, posGlobal, posicionTabla Por Referencia, 
                         Si globalRival = posGlobal Entonces
                             estadoFicha[j, p] <- Falso
                             posicionTabla[j, p] <- 0
-                            Escribir " ¡CAPTURA! ¡La ficha ", p, " del Jugador ", j, " fue enviada a casa!"
+                            Escribir " Â¡CAPTURA! Â¡La ficha ", p, " del Jugador ", j, " fue enviada a casa!"
                         FinSi
                     FinSi
                 FinPara
@@ -952,7 +987,7 @@ FinSubProceso
 Funcion llamarGanador(numeroJugador)
     Escribir ""
     Escribir "===================================="
-    Escribir "  ¡GANO EL JUGADOR NRO: ", numeroJugador, "!"
+    Escribir "  Â¡GANO EL JUGADOR NRO: ", numeroJugador, "!"
     Escribir "===================================="
 FinFuncion
 
@@ -993,7 +1028,7 @@ Funcion modoDeJuego <- llamarModoDeJuego
         Leer modoDeJuego
         
         Si modoDeJuego < 1 O modoDeJuego > 3 Entonces
-            Escribir " ¡Opcion invalida! Por favor, ingrese un valor entre 1 y 3."
+            Escribir " Â¡Opcion invalida! Por favor, ingrese un valor entre 1 y 3."
             Esperar Tecla
         FinSi
     Fin Mientras
@@ -1125,7 +1160,7 @@ SubProceso sacarFichaDeCasa(idJugador, posicionTabla Por Referencia, estadoFicha
         Si NO estadoFicha[idJugador, p] Entonces
             estadoFicha[idJugador, p] <- Verdadero
             posicionTabla[idJugador, p] <- 1
-            Escribir "¡Ficha ", p, " salio de la casa a la posicion 1!"
+            Escribir "Â¡Ficha ", p, " salio de la casa a la posicion 1!"
             p <- 4
         FinSi
     FinPara
@@ -1168,7 +1203,7 @@ SubProceso elegirY1MoverFicha(idJugador, dado, posicionTabla Por Referencia, est
             
             movimientoValido <- Verdadero
         Sino
-            Escribir "¡Esa ficha no esta activa o ya llego a la meta! Por favor, elija otra."
+            Escribir "Â¡Esa ficha no esta activa o ya llego a la meta! Por favor, elija otra."
         FinSi
     Hasta Que movimientoValido
 FinSubProceso
@@ -1201,11 +1236,11 @@ SubProceso procesarTurnoJugador(idJugador, posicionTabla Por Referencia, estadoF
         
         Si dado = 6 Entonces
             turnoExtra <- Verdadero
-            Escribir " ¡Obtuviste un 6! Tienes derecho a un turno extra despues de jugar."
+            Escribir " Â¡Obtuviste un 6! Tienes derecho a un turno extra despues de jugar."
         FinSi
         
         Si dado = 6 Y hayEnCasa Y hayEnTablero Entonces
-            Escribir "¿Que deseas hacer?"
+            Escribir "Â¿Que deseas hacer?"
             Escribir "1. Sacar una ficha de la casa"
             Escribir "2. Mover una ficha que ya esta en el tablero"
             opcionAccion <- leerEnteroEntre(1, 2, "Elija una opcion")
@@ -1233,7 +1268,7 @@ SubProceso procesarTurnoJugador(idJugador, posicionTabla Por Referencia, estadoF
         
         Si turnoExtra Y juegoActivo Entonces
             Escribir ""
-            Escribir " ¡Por haber sacado un 6, tiras el dado nuevamente!"
+            Escribir " Â¡Por haber sacado un 6, tiras el dado nuevamente!"
             Escribir "Presione una tecla para continuar..."
 			imprimirMatriz(tablero)
             Esperar Tecla
@@ -1264,7 +1299,7 @@ SubProceso procesarTurnoPC(idJugador, posicionTabla Por Referencia, estadoFicha 
         
         Si dado = 6 Entonces
             turnoExtra <- Verdadero
-            Escribir " ¡La PC obtuvo un 6 y gano un turno extra!"
+            Escribir " Â¡La PC obtuvo un 6 y gano un turno extra!"
         FinSi
         
         Si dado = 6 Y hayEnCasa Y NO accionRealizada Entonces
@@ -1285,7 +1320,7 @@ SubProceso procesarTurnoPC(idJugador, posicionTabla Por Referencia, estadoFicha 
         
         Si turnoExtra Y juegoActivo Entonces
             Escribir ""
-            Escribir " ¡La PC tirara el dado nuevamente por haber obtenido un 6!"
+            Escribir " Â¡La PC tirara el dado nuevamente por haber obtenido un 6!"
             Esperar 1.5 Segundos
         FinSi
         
@@ -1976,7 +2011,7 @@ Funcion h <- VerificarBarcoHundido(tableroReal, tableroDisparos, n, tam)
     Para i <- 1 Hasta n Hacer
         Para j <- 1 Hasta n Hacer
             // Si encontramos una parte de un barco no evaluada o simplemente barriendo cada celda 'B' real:
-            // Una forma simple: verificar si existe un barco de tamaño 'tam' horizontal o vertical a partir de i,j que esté 100% tocado ("X")
+            // Una forma simple: verificar si existe un barco de tamaÃ±o 'tam' horizontal o vertical a partir de i,j que estÃ© 100% tocado ("X")
             
             // Chequear Horizontal
             Si j + tam - 1 <= n Entonces
@@ -2037,16 +2072,16 @@ SubProceso DisparoJugador(tableroBot, tableroDisparosJugador, n)
         tableroDisparosJugador[filaJugador, colJugador] <- "X"
         Escribir "Impacto! Le diste a un barco enemigo."
         
-        // Verificamos si con este impacto se hundió algún barco revisando los barcos restantes del bot
+        // Verificamos si con este impacto se hundiÃ³ algÃºn barco revisando los barcos restantes del bot
         // (Nota: Para un aviso exacto de "hundido", validamos si hay barcos completos de 5, 4 o 3)
         Si VerificarBarcoHundido(tableroBot, tableroDisparosJugador, n, 5) = 1 Entonces
-            Escribir "¡Has hundido el barco de 5 casillas del enemigo!"
+            Escribir "Â¡Has hundido el barco de 5 casillas del enemigo!"
         Sino
             Si VerificarBarcoHundido(tableroBot, tableroDisparosJugador, n, 4) >= 1 Entonces
-                Escribir "¡Has hundido un barco de 4 casillas del enemigo!"
+                Escribir "Â¡Has hundido un barco de 4 casillas del enemigo!"
             Sino
                 Si VerificarBarcoHundido(tableroBot, tableroDisparosJugador, n, 3) = 1 Entonces
-                    Escribir "¡Has hundido el barco de 3 casillas del enemigo!"
+                    Escribir "Â¡Has hundido el barco de 3 casillas del enemigo!"
                 FinSi
             FinSi
         FinSi
