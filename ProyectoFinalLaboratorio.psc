@@ -28,7 +28,7 @@ Algoritmo ProyectoFinalLaboratorio
     Escribir " "
     Escribir "                        1                         "
     Escribir "                  -------------                   "
-    Escribir "                 |    JUGAR    |                  "
+    Escribir "                 |    INICIO   |                  "
     Escribir "                  -------------                   "
     Escribir " "
     Escribir "                        2                         " 
