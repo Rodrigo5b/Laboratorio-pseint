@@ -1,39 +1,43 @@
 Algoritmo ProyectoFinalLaboratorio
-    Definir opcionPrincipal, opcionJuego Como Entero
     Definir partidasIniciadas, partidasTruco, partidasLudo, partidasNaval Como Entero
-    Definir salir Como Logico
+    Definir salirMenuPrincipal, salirJuego Como Logico
+	Definir opcionPrincipal, opcionJuego Como Caracter
+	
     partidasIniciadas <- 0
     partidasTruco <- 0
     partidasLudo <- 0
     partidasNaval <- 0
-    opcionPrincipal <- 0
-    opcionJuego <- 0
-    salir <- Falso
-    Repetir
-     opcionPrincipal<-menuPrincipal 
-        Segun opcionPrincipal Hacer
-            1:
-                opcionJuego<- seleccionDeJuego
-                Segun opcionJuego Hacer
-                    1:
-                        partidasIniciadas <- partidasIniciadas + 1
-                        partidasTruco <- partidasTruco + 1
-                        EjecutarTruco
-                    2:
-                        partidasIniciadas <- partidasIniciadas + 1
-                        partidasLudo <- partidasLudo + 1
-                        EjecutarLudo
-                    3:
-                        partidasIniciadas <- partidasIniciadas + 1
-                        partidasNaval <- partidasNaval + 1
-                        EjecutarBatallaNaval
-                    4:
-                        Escribir "Volviendo al menu principal..."
-                    De Otro Modo:
-                        Escribir "Opcion invalida."
-                        Esperar Tecla
-                FinSegun
-            2:
+    salirMenuPrincipal <- Falso
+	salirJuego <- Falso
+	Repetir
+		opcionPrincipal <- menuPrincipal
+		Segun opcionPrincipal Hacer
+            '1':
+				Repetir
+					opcionJuego <- seleccionDeJuego
+					Segun opcionJuego Hacer
+						'1':
+							partidasIniciadas <- partidasIniciadas + 1
+							partidasTruco <- partidasTruco + 1
+							EjecutarTruco
+						'2':
+							partidasIniciadas <- partidasIniciadas + 1
+							partidasLudo <- partidasLudo + 1
+							EjecutarLudo
+						'3':
+							partidasIniciadas <- partidasIniciadas + 1
+							partidasNaval <- partidasNaval + 1
+							EjecutarBatallaNaval
+						'4':
+							Escribir "Volviendo al menu principal..."
+							salirJuego <- Verdadero
+							Esperar Tecla
+							Borrar Pantalla
+						De Otro Modo:
+							opcionInvalida(1, 4)
+					FinSegun
+				Hasta Que salirJuego
+            '2':
                 Borrar Pantalla
                 Escribir "============= ESTADISTICAS ============="
                 Escribir "Partidas iniciadas: ", partidasIniciadas," veces."
@@ -43,7 +47,7 @@ Algoritmo ProyectoFinalLaboratorio
                 Escribir ""
                 Escribir "Nota: se cuentan inicios, no victorias."
                 Esperar Tecla
-            3:
+            '3':
                 Borrar Pantalla
                 Escribir "============= INFORMACION ============="
                 Escribir " Somos Ramiro, Sebastian y Rodrigo"
@@ -61,121 +65,100 @@ Algoritmo ProyectoFinalLaboratorio
                 Escribir "Esperamos que les guste el proyecto. Gracias por probarlo."
                 Escribir "Presione una tecla para volver..."
                 Esperar Tecla
-            0:
-                salir <- Verdadero
+            '4':
+                salirMenuPrincipal <- Verdadero
                 Borrar Pantalla
                 Escribir "Gracias por jugar. Hasta la proxima!"
             De Otro Modo:
-                Escribir "Opcion invalida. Ingrese un numero del 0 al 3."
-                Esperar Tecla
-        FinSegun
-    Hasta Que salir
+				opcionInvalida(1, 4)
+		FinSegun
+	Hasta Que salirMenuPrincipal
+	
 FinAlgoritmo
+Funcion opcionInvalida(min, max)
+	Borrar Pantalla
+	Escribir "Opcion invalida. Ingrese un numero del ", min, " al ", max
+	Escribir "Aprete una tecla cualquiera para ver el menu de vuelta:"
+	Esperar Tecla
+	Borrar Pantalla
+FinFuncion
 
 Funcion menu<- menuPrincipal 
-Definir menu,in como Entero
-Borrar Pantalla
-    Escribir "   ________          __            __           __     __   "
-    Escribir "  |        \        |  \          |  \         |  \   |  \  "
-    Escribir "   \$$$$$$$$______   \$$  ______  | $$  ______ | $$   | $$  ______    ______    _______   ______ "
-    Escribir "     | $$  /      \ |  \ /      \ | $$ /      \| $$   | $$ /      \  /      \  /       \ /      \"
-    Escribir "     | $$ |  $$$$$$\| $$|  $$$$$$\| $$|  $$$$$$\\$$\ /  $$|  $$$$$$\|  $$$$$$\|  $$$$$$$|  $$$$$$\"
-    Escribir "     | $$ | $$   \$$| $$| $$  | $$| $$| $$    $$ \$$\  $$ | $$    $$| $$   \$$ \$$    \ | $$    $$"
-    Escribir "     | $$ | $$      | $$| $$__/ $$| $$| $$$$$$$$  \$$ $$  | $$$$$$$$| $$       _\$$$$$$\| $$$$$$$$"
-    Escribir "     | $$ | $$      | $$| $$    $$| $$ \$$     \   \$$$    \$$     \| $$      |       $$ \$$     \"
-    Escribir "     | $$ | $$      | $$| $$    $$| $$ \$$     \   \$$$    \$$     \| $$      |       $$ \$$     \"
-    Escribir "      \$$  \$$       \$$| $$$$$$$  \$$  \$$$$$$$    \$      \$$$$$$$ \$$       \$$$$$$$   \$$$$$$$"
-    Escribir "                        | $$ "
-    Escribir "                        | $$ "
-    Escribir"                          \$$ "
-    Escribir " "
-    Escribir " "
-    Escribir "                        1                         "
-    Escribir "                  -------------                   "
-    Escribir "                 |    INICIO   |                  "
-    Escribir "                  -------------                   "
-    Escribir " "
-    Escribir "                        2                         " 
-    Escribir "                  --------------                  "
-    Escribir "                 | ESTADISTICAS |                 "
-    Escribir "                  --------------                  "
-    Escribir " "
-    Escribir "                        3                         " 
-    Escribir "                  -------------                   "
-    Escribir "                 | INFORMACION |                  "
-    Escribir "                  -------------                   "
-    Escribir " "
-    Escribir "                        0                         " 
-    Escribir "                  -------------                   "
-    Escribir "                 |    SALIR    |                  "
-    Escribir "                  -------------                   "
-    Escribir " "
-    Escribir " SELECCIONA UNA DE LAS OPCIONES PARA EMPEZAR A JUGAR O VOLVER AL MENU INICIAL.(1-2-3-0) "
-    Escribir " "
-    Leer in
-Borrar Pantalla
-Mientras in <0 o in >3 hacer
-    Escribir "   ________          __            __           __     __   "
-    Escribir "  |        \        |  \          |  \         |  \   |  \  "
-    Escribir "   \$$$$$$$$______   \$$  ______  | $$  ______ | $$   | $$  ______    ______    _______   ______ "
-    Escribir "     | $$  /      \ |  \ /      \ | $$ /      \| $$   | $$ /      \  /      \  /       \ /      \"
-    Escribir "     | $$ |  $$$$$$\| $$|  $$$$$$\| $$|  $$$$$$\\$$\ /  $$|  $$$$$$\|  $$$$$$\|  $$$$$$$|  $$$$$$\"
-    Escribir "     | $$ | $$   \$$| $$| $$  | $$| $$| $$    $$ \$$\  $$ | $$    $$| $$   \$$ \$$    \ | $$    $$"
-    Escribir "     | $$ | $$      | $$| $$__/ $$| $$| $$$$$$$$  \$$ $$  | $$$$$$$$| $$       _\$$$$$$\| $$$$$$$$"
-    Escribir "     | $$ | $$      | $$| $$    $$| $$ \$$     \   \$$$    \$$     \| $$      |       $$ \$$     \"
-    Escribir "     | $$ | $$      | $$| $$    $$| $$ \$$     \   \$$$    \$$     \| $$      |       $$ \$$     \"
-    Escribir "      \$$  \$$       \$$| $$$$$$$  \$$  \$$$$$$$    \$      \$$$$$$$ \$$       \$$$$$$$   \$$$$$$$"
-    Escribir "                        | $$ "
-    Escribir "                        | $$ "
-    Escribir"                          \$$ "
-    Escribir " "
-    Escribir " "
-    Escribir "                        1                         "
-    Escribir "                  -------------                   "
-    Escribir "                 |    INICIO   |                  "
-    Escribir "                  -------------                   "
-    Escribir " "
-    Escribir "                        2                         " 
-    Escribir "                  --------------                  "
-    Escribir "                 | ESTADISTICAS |                 "
-    Escribir "                  --------------                  "
-    Escribir " "
-    Escribir "                        3                         " 
-    Escribir "                  -------------                   "
-    Escribir "                 | INFORMACION |                  "
-    Escribir "                  -------------                   "
-    Escribir " "
-    Escribir "                        0                         " 
-    Escribir "                  -------------                   "
-    Escribir "                 |    SALIR    |                  "
-    Escribir "                  -------------                   "
-    Escribir " "
-    Escribir " SELECCIONA UNA DE LAS OPCIONES PARA EMPEZAR A JUGAR O VOLVER AL MENU INICIAL.(1-2-3-0) "
-    Escribir " "
-    Leer in
-FinMientras
-menu<-in
+	Definir menu como Caracter
+		Escribir "   ________          __            __           __     __   "
+		Escribir "  |        \        |  \          |  \         |  \   |  \  "
+		Escribir "   \$$$$$$$$______   \$$  ______  | $$  ______ | $$   | $$  ______    ______    _______   ______ "
+		Escribir "     | $$  /      \ |  \ /      \ | $$ /      \| $$   | $$ /      \  /      \  /       \ /      \"
+		Escribir "     | $$ |  $$$$$$\| $$|  $$$$$$\| $$|  $$$$$$\\$$\ /  $$|  $$$$$$\|  $$$$$$\|  $$$$$$$|  $$$$$$\"
+		Escribir "     | $$ | $$   \$$| $$| $$  | $$| $$| $$    $$ \$$\  $$ | $$    $$| $$   \$$ \$$    \ | $$    $$"
+		Escribir "     | $$ | $$      | $$| $$__/ $$| $$| $$$$$$$$  \$$ $$  | $$$$$$$$| $$       _\$$$$$$\| $$$$$$$$"
+		Escribir "     | $$ | $$      | $$| $$    $$| $$ \$$     \   \$$$    \$$     \| $$      |       $$ \$$     \"
+		Escribir "     | $$ | $$      | $$| $$    $$| $$ \$$     \   \$$$    \$$     \| $$      |       $$ \$$     \"
+		Escribir "      \$$  \$$       \$$| $$$$$$$  \$$  \$$$$$$$    \$      \$$$$$$$ \$$       \$$$$$$$   \$$$$$$$"
+		Escribir "                        | $$ "
+		Escribir "                        | $$ "
+		Escribir"                          \$$ "
+		Escribir " "
+		Escribir " "
+		Escribir "                        1                         "
+		Escribir "                  -------------                   "
+		Escribir "                 |    INICIO   |                  "
+		Escribir "                  -------------                   "
+		Escribir " "
+		Escribir "                        2                         " 
+		Escribir "                  --------------                  "
+		Escribir "                 | ESTADISTICAS |                 "
+		Escribir "                  --------------                  "
+		Escribir " "
+		Escribir "                        3                         " 
+		Escribir "                  -------------                   "
+		Escribir "                 | INFORMACION |                  "
+		Escribir "                  -------------                   "
+		Escribir " "
+		Escribir "                        4                         " 
+		Escribir "                  -------------                   "
+		Escribir "                 |    SALIR    |                  "
+		Escribir "                  -------------                   "
+		Escribir " "
+		Escribir " SELECCIONA UNA DE LAS OPCIONES PARA EMPEZAR A JUGAR O VOLVER AL MENU INICIAL.(1-2-3-4) "
+		Leer menu
 FinFuncion
-Funcion juego <- seleccionDeJuego
 
-	Definir opcionMenu, juego como entero
-	Repetir
-		Borrar Pantalla
-		Escribir "========== SELECCION DE JUEGO =========="
-		Escribir "1. Truco"
-		Escribir "2. Ludo"
-		Escribir "3. Batalla naval"
-		Escribir "4. Volver al menu principal"
-		Escribir "Seleccione un juego:"
-		Leer opcionMenu	
-	Mientras Que opcionMenu<1 o opcionMenu>4
-	juego<-opcionMenu
+Funcion juego <- seleccionDeJuego
+	Definir juego como caracter
+	Borrar Pantalla
+	Escribir "=============== SELECCION DE JUEGO ==============="
+	Escribir "                        1                         "
+	Escribir "                  -------------                   "
+	Escribir "                 |    TRUCO    |                  "
+	Escribir "                  -------------                   "
+	Escribir " "
+	Escribir "                        2                         " 
+	Escribir "                  --------------                  "
+	Escribir "                 | 	    LUDO     |                 "
+	Escribir "                  --------------                  "
+	Escribir " "
+	Escribir "                        3                         " 
+	Escribir "                  --------------                   "
+	Escribir "                 |   BATALLA    |                  "
+	Escribir "                 |    NAVAL     |                  "
+	Escribir "                  --------------                   "
+	Escribir " "
+	Escribir "                        4                         " 
+	Escribir "                  -------------                   "
+	Escribir "                 |    VOLVER   |              "
+	Escribir "                  -------------                   "
+	Escribir " "
+	Escribir " SELECCIONA UNA DE LAS OPCIONES PARA EMPEZAR A JUGAR O VOLVER AL MENU INICIAL.(1-2-3-4) "
+	Leer juego
 FinFuncion
 
 SubProceso EjecutarTruco
-    Definir pMaximos, pJugador, pCPU, mazoIdx, dificultadCPU, manoInicial, opcionMenu Como Entero
+    Definir pMaximos, pJugador, pCPU, mazoIdx, dificultadCPU, manoInicial Como Entero
     Definir nros, jers, envs, jNros, jJers, jEnvs, cNros, cJers, cEnvs Como Entero
-    Definir palos, jPalos, cPalos Como Caracter
+    Definir palos, jPalos, cPalos, opcionMenu Como Caracter
+	Definir SalirTruco Como Logico
+	SalirTruco <- Falso
     Dimension nros[40], palos[40], jers[40], envs[40]
     Dimension jNros[3], jPalos[3], jJers[3], jEnvs[3]
     Dimension cNros[3], cPalos[3], cJers[3], cEnvs[3]
@@ -186,9 +169,9 @@ SubProceso EjecutarTruco
         pJugador <- 0
         pCPU <- 0
         manoInicial <- Azar(2)
-        opcionMenu <- MostrarMenuPrincipalTruco(opcionMenu)
+        opcionMenu <- MostrarMenuPrincipalTruco
         Segun opcionMenu Hacer
-            1:
+            '1':
                 ConfigurarPartida(pMaximos)
                 dificultadCPU <- SeleccionarDificultadCPU()
                 
@@ -202,24 +185,27 @@ SubProceso EjecutarTruco
                 FinMientras
                 MostrarFinPartida(pJugador, pCPU, pMaximos)
                 
-            2:
+            '2':
                 MostrarReglas
                 
-            3:
+            '3':
                 Escribir "Saliendo..."
                 Esperar Tecla
-                
+                Borrar Pantalla
+				SalirTruco <- Verdadero
             De Otro Modo:
-                Escribir "Opcion invalida."
-                Esperar 1 Segundos
+                opcionInvalida(1, 3)
         FinSegun
-    Hasta Que opcionMenu = 3
+    Hasta Que SalirTruco
 FinSubProceso
+
 SubProceso EjecutarLudo
     Definir MIN_JUGADORES, MAX_JUGADORES, POSICION_META Como Entero
-    Definir cantidadJugadores, i, p, modoDeJuego Como Entero
-    Definir juegoActivo Como Logico
-    Definir tablero Como Caracter
+    Definir cantidadJugadores, i, p Como Entero
+    Definir juegoActivo, salirLudo, salirSeleccionJugadores Como Logico
+	
+	
+    Definir tablero, menuJugadores, modoDeJuego Como Caracter
     Dimension tablero[15, 15]
     
     Definir posicionTabla Como Entero
@@ -239,28 +225,50 @@ SubProceso EjecutarLudo
 			posicionTabla[i, p] <- 0
 		FinPara
     FinPara
-    
     Borrar Pantalla
+	Repetir
+		salirLudo <- Falso
+		modoDeJuego <- llamarModoDeJuego
+		Segun modoDeJuego Hacer
+			
+			'1':
+				Escribir "Modo vs PC seleccionado."
+				Esperar Tecla
+				cantidadJugadores <- 2
+				EjecutarBucleJuego(cantidadJugadores, POSICION_META, juegoActivo, tablero, posicionTabla, estadoFicha, Verdadero)
+			'2':
+				Repetir
+					salirSeleccionJugadores <- Falso
+					menuJugadores <- leerCaracter("Elija la cantidad de jugadores [2] [3] [4] y [5] Para Salir de Seleccion de Jugadores")
+					Segun menuJugadores Hacer
+						'2':
+							cantidadJugadores <- 2
+							EjecutarBucleJuego(cantidadJugadores, POSICION_META, juegoActivo, tablero, posicionTabla, estadoFicha, Falso)
+						'3':
+							cantidadJugadores <- 3
+							EjecutarBucleJuego(cantidadJugadores, POSICION_META, juegoActivo, tablero, posicionTabla, estadoFicha, Falso)
+						'4':
+							cantidadJugadores <- 4
+							EjecutarBucleJuego(cantidadJugadores, POSICION_META, juegoActivo, tablero, posicionTabla, estadoFicha, Falso)
+						'5':
+							Escribir "Volviendo"
+							EsperarTecla
+							Borrar Pantalla
+							salirSeleccionJugadores <- Verdadero
+						De Otro Modo:
+							opcionInvalida(2,5)
+					FinSegun
+				Mientras Que salirSeleccionJugadores = Falso 
+			'3':
+				Escribir "Ha elegido volver al menu anterior!"
+				Esperar Tecla
+				Borrar Pantalla
+				salirLudo <- Verdadero
+			De Otro Modo:
+				opcionInvalida(1, 3)
+		FinSegun
+	Hasta Que salirLudo
     
-    modoDeJuego <- llamarModoDeJuego
-    
-    Si modoDeJuego = 1 Entonces
-        Escribir "Modo vs PC seleccionado."
-        Esperar Tecla
-        cantidadJugadores <- 2
-        EjecutarBucleJuego(cantidadJugadores, POSICION_META, juegoActivo, tablero, posicionTabla, estadoFicha, Verdadero)
-    FinSi
-    
-    Si modoDeJuego = 2 Entonces
-        cantidadJugadores <- leerEnteroEntre(MIN_JUGADORES, MAX_JUGADORES, "Elija la cantidad de jugadores [2] [3] [4]")
-        EjecutarBucleJuego(cantidadJugadores, POSICION_META, juegoActivo, tablero, posicionTabla, estadoFicha, Falso)
-    FinSi
-    
-    Si modoDeJuego = 3 Entonces
-        Escribir "Ha elegido volver al menu principal!"
-        Esperar Tecla
-        Borrar Pantalla
-    FinSi
 FinSubProceso
 
 SubProceso EjecutarBatallaNaval
@@ -478,11 +486,8 @@ SubProceso DibujarCartasJugadorGrande(nros Por Referencia, palos Por Referencia,
 		Escribir " "
 	FinPara
 FinSubProceso
-
-
-Funcion opcion <- MostrarMenuPrincipalTruco(opcionMenu Por Referencia)
-	definir opcion como entero
-    opcionMenu <- 0
+Funcion opcionMenu <- MostrarMenuPrincipalTruco
+	definir opcionMenu como caracter
     Borrar Pantalla
     Escribir "   -  "
     Escribir "  |  \  "
@@ -513,40 +518,6 @@ Funcion opcion <- MostrarMenuPrincipalTruco(opcionMenu Por Referencia)
     Escribir " SELECCIONA UNA DE LAS OPCIONES PARA EMPEZAR A JUGAR O VOLVER AL MENU INICIAL.(1-2-3) "
     Escribir " "
     Leer opcionMenu
-    Borrar Pantalla
-    Mientras opcionMenu<1 o opcionMenu>3 Hacer
-        Escribir "   -  "
-        Escribir "  |  \  "
-        Escribir " _| $$_     ______   __    __   _______   ______"
-        Escribir "|   $$ \   /      \ |  \  |  \ /       \ /      \ "
-        Escribir " \$$$$$$  |  $$$$$$\| $$  | $$|  $$$$$$$|  $$$$$$\"
-        Escribir "  | $$ __ | $$   \$$| $$  | $$| $$      | $$  | $$"
-        Escribir "  | $$|  \| $$      | $$__/ $$| $$_____ | $$__/ $$"
-        Escribir "   \$$  $$| $$       \$$    $$ \$$     \ \$$    $$"
-        Escribir "    \$$$$  \$$        \$$$$$$   \$$$$$$$  \$$$$$$ "
-        Escribir " "
-        Escribir " "
-        Escribir "                        1                         "
-        Escribir "                  -------------                   "
-        Escribir "                 |    JUGAR    |                  "
-        Escribir "                  -------------                   "
-        Escribir " "
-        Escribir "                        2                         " 
-        Escribir "                  -------------                   "
-        Escribir "                 |    REGLAS   |                  "
-        Escribir "                  -------------                   "
-        Escribir " "
-        Escribir "                        3                         " 
-        Escribir "                  -------------                   "
-        Escribir "                 |    SALIR    |                  "
-        Escribir "                  -------------                   "
-        Escribir " "
-        Escribir " SELECCIONA UNA DE LAS OPCIONES NUEVAMENTE. QUE SEAN UNA DE LAS DADAS (1-2-3) POR FAVOR. "
-        Escribir " "
-        Leer opcionMenu
-        Borrar Pantalla
-    FinMientras
-	opcion<- opcionMenu
 FinFuncion
 
 SubProceso MostrarReglas
@@ -944,7 +915,7 @@ SubProceso ResolverEnvido(tipo, eJ, eC, pJ Por Referencia, pC Por Referencia, pM
     FinSi
 	
     Si acepta Entonces
-        Escribir "CPU: ¡Quiero! Mi envido es ", eC, "."
+        Escribir "CPU: Â¡Quiero! Mi envido es ", eC, "."
         Escribir "Tu envido es ", eJ, "."
         ganaJ <- 0
         Si eJ > eC Entonces
@@ -985,7 +956,7 @@ SubProceso ResolverTrucoJugador(estTruco Por Referencia, ptsTruco Por Referencia
         probabilidad <- 95 
     FinSi
     Si Azar(100) <= probabilidad Entonces
-        Escribir "CPU: ¡Quiero!"
+        Escribir "CPU: Â¡Quiero!"
         estTruco <- estTruco + 1
         ptsTruco <- ptsSiguiente
         turnoTruco <- 0
@@ -1000,9 +971,9 @@ FinSubProceso
 Funcion nombre <- NombreCantoTruco(nivel)
     Definir nombre Como Caracter
     Segun nivel Hacer
-        0: nombre <- "¡Truco!"
-        1: nombre <- "¡Retruco!"
-        2: nombre <- "¡Vale cuatro!"
+        0: nombre <- "Â¡Truco!"
+        1: nombre <- "Â¡Retruco!"
+        2: nombre <- "Â¡Vale cuatro!"
         De Otro Modo: nombre <- "Truco"
     FinSegun
 FinFuncion
@@ -1217,7 +1188,7 @@ SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Ref
                         Escribir "Tus cartas:"
                         DibujarCartasJugadorGrande(jNros, jPalos, dispJ)
                         Escribir ""
-                        Escribir "¡ATENCIÓN! La CPU canta ENVIDO."
+                        Escribir "Â¡ATENCIÃ“N! La CPU canta ENVIDO."
                         Escribir "1. Quiero"
                         Escribir "2. No quiero"
                         Leer accion
@@ -1418,12 +1389,11 @@ SubProceso EjecutarBucleJuego(cantidadJugadores, POSICION_META, juegoActivo Por 
                 Sino
                     procesarTurnoJugador(i, posicionTabla, estadoFicha, tablero, cantidadJugadores, POSICION_META, juegoActivo)
                     imprimirMatriz(tablero)
-                FinSi
-                
-                Si juegoActivo Entonces
-                    Escribir ""
-                    Escribir "Presione una tecla para finalizar su turno y pasar al siguiente..."
-                    Esperar Tecla
+					Si juegoActivo Entonces
+						Escribir ""
+						Escribir "Presione una tecla para finalizar su turno y pasar al siguiente..."
+						Esperar Tecla
+					FinSi
                 FinSi
             FinSi
         FinPara
@@ -1445,7 +1415,7 @@ SubProceso verificarCaptura(idJugador, posGlobal, posicionTabla Por Referencia, 
                         Si globalRival = posGlobal Entonces
                             estadoFicha[j, p] <- Falso
                             posicionTabla[j, p] <- 0
-                            Escribir " ¡CAPTURA! ¡La ficha ", p, " del Jugador ", j, " fue enviada a casa!"
+                            Escribir " Â¡CAPTURA! Â¡La ficha ", p, " del Jugador ", j, " fue enviada a casa!"
                         FinSi
                     FinSi
                 FinPara
@@ -1457,52 +1427,44 @@ FinSubProceso
 Funcion llamarGanador(numeroJugador)
     Escribir ""
     Escribir "===================================="
-    Escribir "  ¡GANO EL JUGADOR NRO: ", numeroJugador, "!"
+    Escribir "  Â¡GANO EL JUGADOR NRO: ", numeroJugador, "!"
     Escribir "===================================="
 FinFuncion
 
+
+
+
 Funcion modoDeJuego <- llamarModoDeJuego
-    Definir modoDeJuego Como Entero
-    modoDeJuego <- 0
-    Mientras modoDeJuego < 1 O modoDeJuego > 3 Hacer
-        Borrar Pantalla
-        Escribir " "
-        Escribir "      "
-        Escribir "        "
-        Escribir " __        __     __   _______    ______"
-        Escribir "|  |      |  \   |  \ |       \  /       \ "
-        Escribir "| $$|     |  $$  |$$| | $$$$$$$ |  $$$$$$$\"
-        Escribir "| $$      | $$   |$$| | $$    |$| $$    |$$"
-        Escribir "| $$      | $$__/ $$| | $$___/$$| $$___/  $$"
-        Escribir "| $$       \$$    $$| | $$   $$/ \$$     $$"
-        Escribir " \$$$$$$$$  \$$$$$$/   \$$$$$$/    \$$$$$$ "
-        Escribir " "
-        Escribir " "
-        Escribir "                       1                       "
-        Escribir "               -----------------               "
-        Escribir "              |  JUGAR VS PC    |              "
-        Escribir "               -----------------               "
-        Escribir " "
-        Escribir "                       2                       " 
-        Escribir "               -----------------               "
-        Escribir "              | JUGAR VS AMIGOS |              "
-        Escribir "               -----------------               "
-        Escribir " "
-        Escribir "                       3                       " 
-        Escribir "               -----------------               "
-        Escribir "              |     VOLVER      |              "
-        Escribir "               -----------------               "
-        Escribir " "
-        Escribir " SELECCIONA UNA DE LAS OPCIONES PARA EMPEZAR (1-2-3). "
-        Escribir " "
-        Leer modoDeJuego
-        
-        Si modoDeJuego < 1 O modoDeJuego > 3 Entonces
-            Escribir " ¡Opcion invalida! Por favor, ingrese un valor entre 1 y 3."
-            Esperar Tecla
-        FinSi
-    FinMientras
-    Borrar Pantalla
+	Definir modoDeJuego Como Caracter
+	Borrar Pantalla
+	Escribir " "
+	Escribir " __        __     __   _______    ______"
+	Escribir "|  |      |  \   |  \ |       \  /       \ "
+	Escribir "| $$|     |  $$  |$$| | $$$$$$$ |  $$$$$$$\"
+	Escribir "| $$      | $$   |$$| | $$    |$| $$    |$$"
+	Escribir "| $$      | $$__/ $$| | $$___/$$| $$___/  $$"
+	Escribir "| $$       \$$    $$| | $$   $$/ \$$     $$"
+	Escribir " \$$$$$$$$  \$$$$$$/   \$$$$$$/    \$$$$$$ "
+	Escribir " "
+	Escribir " "
+	Escribir "                       1                       "
+	Escribir "               -----------------               "
+	Escribir "              |  JUGAR VS PC    |              "
+	Escribir "               -----------------               "
+	Escribir " "
+	Escribir "                       2                       " 
+	Escribir "               -----------------               "
+	Escribir "              | JUGAR VS AMIGOS |              "
+	Escribir "               -----------------               "
+	Escribir " "
+	Escribir "                       3                       " 
+	Escribir "               -----------------               "
+	Escribir "              |     VOLVER      |              "
+	Escribir "               -----------------               "
+	Escribir " "
+	Escribir " SELECCIONA UNA DE LAS OPCIONES PARA EMPEZAR (1-2-3). "
+	Escribir " "
+	Leer modoDeJuego
 FinFuncion
 
 SubProceso dibujarCaraDado(valor)
@@ -1546,16 +1508,10 @@ SubProceso dibujarCaraDado(valor)
     FinSegun
 FinSubProceso
 
-Funcion resultado <- leerEnteroEntre(minVal, maxVal, mensaje)
-    Definir resultado Como Entero
-    resultado <- 0
-    Repetir
-        Escribir mensaje, ":"
-        Leer resultado
-        Si resultado < minVal O resultado > maxVal Entonces
-            Escribir "Opcion invalida. Debe ser entre ", minVal, " y ", maxVal, "."
-        FinSi
-    Hasta Que resultado >= minVal Y resultado <= maxVal
+Funcion cantJugadores <- leerCaracter(mensaje)
+	Definir cantJugadores Como Caracter
+	Escribir mensaje, ":"
+	Leer cantJugadores
 FinFuncion
 
 Funcion resultado <- tirarDado(jugador, modoJuego)
@@ -1630,7 +1586,7 @@ SubProceso sacarFichaDeCasa(idJugador, posicionTabla Por Referencia, estadoFicha
         Si NO estadoFicha[idJugador, p] Entonces
             estadoFicha[idJugador, p] <- Verdadero
             posicionTabla[idJugador, p] <- 1
-            Escribir "¡Ficha ", p, " salio de la casa a la posicion 1!"
+            Escribir "Â¡Ficha ", p, " salio de la casa a la posicion 1!"
             p <- 4
         FinSi
     FinPara
@@ -1639,6 +1595,7 @@ FinSubProceso
 SubProceso elegirY1MoverFicha(idJugador, dado, posicionTabla Por Referencia, estadoFicha Por Referencia, tablero Por Referencia, cantJugadores, meta)
     Definir fichaElegida, paso, posGlb Como Entero
     Definir movimientoValido Como Logico
+	Definir menuFichaElegida Como Caracter
     fichaElegida <- 0
     paso <- 0
     posGlb <- 0
@@ -1646,13 +1603,23 @@ SubProceso elegirY1MoverFicha(idJugador, dado, posicionTabla Por Referencia, est
     movimientoValido <- Falso
     
     Repetir
-        Escribir "Elija el numero de ficha (1 a 4) en juego para mover con valor ", dado, ":"
-        fichaElegida <- leerEnteroEntre(1, 4, "Numero de ficha")
-        
+		menuFichaElegida <- leerCaracter("Elija el numero de ficha (1 a 4) en juego para mover")
+		Segun menuFichaElegida Hacer
+			'1':
+				fichaElegida <- 1
+			'2':
+				fichaElegida <- 2
+			'3':
+				fichaElegida <- 3
+			'4':
+				fichaElegida <- 4
+			De Otro Modo:
+				opcionInvalida(1,4)
+		FinSegun
         Si estadoFicha[idJugador, fichaElegida] Y posicionTabla[idJugador, fichaElegida] > 0 Y posicionTabla[idJugador, fichaElegida] < meta Entonces
             
             // Animacion de movimiento paso a paso (SIN verificar capturas en el camino)
-            Para paso <- 1 Hasta dado Hacer
+            Para paso <- 0 Hasta dado Hacer
                 Si posicionTabla[idJugador, fichaElegida] < meta Entonces
                     posicionTabla[idJugador, fichaElegida] <- posicionTabla[idJugador, fichaElegida] + 1
                     
@@ -1660,7 +1627,8 @@ SubProceso elegirY1MoverFicha(idJugador, dado, posicionTabla Por Referencia, est
                     Escribir "  [ Moviendo ficha ", fichaElegida, " del Jugador ", idJugador, " ]"
                     Escribir ""
                     dibujarTablero(tablero, posicionTabla, cantJugadores, estadoFicha)
-                    Esperar 850 Milisegundos
+					imprimirMatriz(tablero)
+                    Esperar 1200 Milisegundos
                 FinSi
                 Limpiar Pantalla
             FinPara
@@ -1673,7 +1641,7 @@ SubProceso elegirY1MoverFicha(idJugador, dado, posicionTabla Por Referencia, est
             
             movimientoValido <- Verdadero
         Sino
-            Escribir "¡Esa ficha no esta activa o ya llego a la meta! Por favor, elija otra."
+            Escribir "Â¡Esa ficha no esta activa o ya llego a la meta! Por favor, elija otra."
         FinSi
     Hasta Que movimientoValido
 FinSubProceso
@@ -1689,10 +1657,9 @@ SubProceso verificarGanadorTurno(idJugador, posicionTabla, meta, juegoActivo Por
 FinSubProceso
 
 SubProceso procesarTurnoJugador(idJugador, posicionTabla Por Referencia, estadoFicha Por Referencia, tablero Por Referencia, cantJugadores, meta, juegoActivo Por Referencia)
-    Definir dado, opcionAccion Como Entero
-    Definir hayEnCasa, hayEnTablero Como Logico
-    Definir turnoExtra Como Logico
-    Definir modoJ Como Entero
+    Definir dado, opcionAccion, modoJ Como Entero
+    Definir hayEnCasa, hayEnTablero, turnoExtra, salirSacarFicha Como Logico
+	Definir menuSacarFicha Como Caracter
     dado <- 0
     opcionAccion <- 0
     modoJ <- 2
@@ -1706,15 +1673,21 @@ SubProceso procesarTurnoJugador(idJugador, posicionTabla Por Referencia, estadoF
         
         Si dado = 6 Entonces
             turnoExtra <- Verdadero
-            Escribir " ¡Obtuviste un 6! Tienes derecho a un turno extra despues de jugar."
+            Escribir " Â¡Obtuviste un 6! Tienes derecho a un turno extra despues de jugar."
         FinSi
         
         Si dado = 6 Y hayEnCasa Y hayEnTablero Entonces
-            Escribir "¿Que deseas hacer?"
-            Escribir "1. Sacar una ficha de la casa"
-            Escribir "2. Mover una ficha que ya esta en el tablero"
-            opcionAccion <- leerEnteroEntre(1, 2, "Elija una opcion")
-            
+            Repetir
+				menuSacarFicha <- leerCaracter("1. Sacar una ficha de la casa | 2. Mover una ficha que ya esta en el tablero")
+				Segun menuSacarFicha Hacer
+					'1':
+						opcionAccion <- 1
+					'2':
+						opcionAccion <- 2
+					De Otro Modo:
+						opcionInvalida(1,2)
+				FinSegun
+			Hasta Que opcionAccion = 1 o opcionAccion = 2
             Si opcionAccion = 1 Entonces
                 sacarFichaDeCasa(idJugador, posicionTabla, estadoFicha, tablero)
             Sino
@@ -1738,7 +1711,7 @@ SubProceso procesarTurnoJugador(idJugador, posicionTabla Por Referencia, estadoF
         
         Si turnoExtra Y juegoActivo Entonces
             Escribir ""
-            Escribir " ¡Por haber sacado un 6, tiras el dado nuevamente!"
+            Escribir " Â¡Por haber sacado un 6, tiras el dado nuevamente!"
             Escribir "Presione una tecla para continuar..."
 			imprimirMatriz(tablero)
             Esperar Tecla
@@ -1769,7 +1742,7 @@ SubProceso procesarTurnoPC(idJugador, posicionTabla Por Referencia, estadoFicha 
         
         Si dado = 6 Entonces
             turnoExtra <- Verdadero
-            Escribir " ¡La PC obtuvo un 6 y gano un turno extra!"
+            Escribir " Â¡La PC obtuvo un 6 y gano un turno extra!"
         FinSi
         
         Si dado = 6 Y hayEnCasa Y NO accionRealizada Entonces
@@ -1783,6 +1756,7 @@ SubProceso procesarTurnoPC(idJugador, posicionTabla Por Referencia, estadoFicha 
         Si NO accionRealizada Entonces
             Escribir "La PC no pudo realizar ningun movimiento en este turno."
             turnoExtra <- Falso
+			Esperar 3000 Milisegundos
         FinSi
         
         verificarGanadorTurno(idJugador, posicionTabla, meta, juegoActivo)
@@ -1790,8 +1764,8 @@ SubProceso procesarTurnoPC(idJugador, posicionTabla Por Referencia, estadoFicha 
         
         Si turnoExtra Y juegoActivo Entonces
             Escribir ""
-            Escribir " ¡La PC tirara el dado nuevamente por haber obtenido un 6!"
-            Esperar 1.5 Segundos
+            Escribir " Â¡La PC tirara el dado nuevamente por haber obtenido un 6!"
+            Esperar 3000 Milisegundos
         FinSi
         
     Hasta Que turnoExtra = Falso O juegoActivo = Falso
@@ -1806,7 +1780,7 @@ SubProceso pcMoverFichaTablero(idJugador, dado, posicionTabla Por Referencia, es
         Si estadoFicha[idJugador, p] Y posicionTabla[idJugador, p] > 0 Y posicionTabla[idJugador, p] < meta Y NO accionRealizada Entonces
             Escribir "-> La PC mueve su ficha ", p, " con valor ", dado, ":"
             
-            Para paso <- 1 Hasta dado Hacer
+            Para paso <- 0 Hasta dado Hacer
                 Si posicionTabla[idJugador, p] < meta Entonces
                     posicionTabla[idJugador, p] <- posicionTabla[idJugador, p] + 1
                     
@@ -1814,8 +1788,21 @@ SubProceso pcMoverFichaTablero(idJugador, dado, posicionTabla Por Referencia, es
                     Escribir "  [ La PC esta moviendo la ficha ", p, " ]"
                     Escribir ""
                     dibujarTablero(tablero, posicionTabla, cantJugadores, estadoFicha)
-                    Esperar 750 Milisegundos
+					imprimirMatriz(tablero)
+                    Esperar 950 Milisegundos
                     Limpiar Pantalla
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
                 FinSi
             FinPara
             
@@ -1866,7 +1853,7 @@ SubProceso posicionarCasaEnMatriz(tablero Por Referencia, numJugador, numFicha, 
     Segun numJugador Hacer
         1: // Base inferior izquierda
             Si numFicha = 1 Entonces 
-                tablero[11, 0] <- etiqueta
+                tablero[12, 1] <- etiqueta
             FinSi
             Si numFicha = 2 Entonces 
                 tablero[12, 2] <- etiqueta 
@@ -2460,7 +2447,7 @@ Funcion h <- VerificarBarcoHundido(tableroReal, tableroDisparos, n, tam)
     Para i <- 1 Hasta n Hacer
         Para j <- 1 Hasta n Hacer
             // Si encontramos una parte de un barco no evaluada o simplemente barriendo cada celda 'B' real:
-            // Una forma simple: verificar si existe un barco de tamaño 'tam' horizontal o vertical a partir de i,j que esté 100% tocado ("X")
+            // Una forma simple: verificar si existe un barco de tamaÃ±o 'tam' horizontal o vertical a partir de i,j que estÃ© 100% tocado ("X")
             
             // Chequear Horizontal
             Si j + tam - 1 <= n Entonces
@@ -2521,16 +2508,16 @@ SubProceso DisparoJugador(tableroBot, tableroDisparosJugador, n)
         tableroDisparosJugador[filaJugador, colJugador] <- "X"
         Escribir "Impacto! Le diste a un barco enemigo."
         
-        // Verificamos si con este impacto se hundió algún barco revisando los barcos restantes del bot
+        // Verificamos si con este impacto se hundiÃ³ algÃºn barco revisando los barcos restantes del bot
         // (Nota: Para un aviso exacto de "hundido", validamos si hay barcos completos de 5, 4 o 3)
         Si VerificarBarcoHundido(tableroBot, tableroDisparosJugador, n, 5) = 1 Entonces
-            Escribir "¡Has hundido el barco de 5 casillas del enemigo!"
+            Escribir "Â¡Has hundido el barco de 5 casillas del enemigo!"
         Sino
             Si VerificarBarcoHundido(tableroBot, tableroDisparosJugador, n, 4) >= 1 Entonces
-                Escribir "¡Has hundido un barco de 4 casillas del enemigo!"
+                Escribir "Â¡Has hundido un barco de 4 casillas del enemigo!"
             Sino
                 Si VerificarBarcoHundido(tableroBot, tableroDisparosJugador, n, 3) = 1 Entonces
-                    Escribir "¡Has hundido el barco de 3 casillas del enemigo!"
+                    Escribir "Â¡Has hundido el barco de 3 casillas del enemigo!"
                 FinSi
             FinSi
         FinSi
