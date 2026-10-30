@@ -322,8 +322,10 @@ Funcion dificultad <- SeleccionarDificultadCPU
     Escribir "4. Experta: responde con la carta minima que gana y evalua apuestas"
     Repetir
         Escribir "Seleccione dificultad (1-4):"
-        Leer dificultad
-    Hasta Que dificultad >= 1 Y dificultad <= 4
+        Leer entrada
+        Borrar Pantalla
+    Hasta que ValidarOpcionMenu(entrada)
+    dificultad = ConvertirANumero(entrada)
 FinFuncion
 
 SubProceso MostrarFinPartida(pJugador, pCPU, pMaximos)
@@ -514,7 +516,10 @@ SubProceso DibujarCartasJugadorGrande(nros Por Referencia, palos Por Referencia,
 FinSubProceso
 
 Funcion opcionMenu <- MostrarMenuPrincipalTruco
-	definir opcionMenu como caracter
+    definir entrada como cadena
+    Definir esValida como logico
+	definir opcionMenu como entero
+repetir
     Borrar Pantalla
     Escribir "   -  "
     Escribir "  |  \  "
@@ -544,7 +549,16 @@ Funcion opcionMenu <- MostrarMenuPrincipalTruco
     Escribir " "
     Escribir " SELECCIONA UNA DE LAS OPCIONES PARA EMPEZAR A JUGAR O VOLVER AL MENU INICIAL.(1-2-3) "
     Escribir " "
-    Leer opcionMenu
+    Leer entrada
+    Borrar Pantalla
+si entrada = "1" o entrada = "2" o entrada = 3 Entonces
+    esValida = Verdadero
+SiNo 
+   opcionInvalida(1,3)
+   esValida = Falso
+Finsi
+Hasta que esValida = Verdadero
+opcionMenu<- convertirANumero(entrada)
 FinFuncion
 
 SubProceso MostrarReglas
@@ -1081,7 +1095,7 @@ SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Ref
     Definir hJNros, hCNros Como Entero
     Definir hJPalos, hCPalos Como Caracter
     Dimension hJNros[3], hCNros[3], hJPalos[3], hCPalos[3]
-	
+	Definir entrada como Cadena
     Definir i, mano, jugadorLider, turno, cartaSel, jCarta, cCarta, ganador, ganadasJ, ganadasC Como Entero
     Definir envidoCantado, envidoJ, envidoC, estTruco, ptsTruco, turnoTruco, accion Como Entero
     Definir alMazo, turnoValido, primerCarta, puedeSubirJ Como Logico
@@ -1122,6 +1136,7 @@ SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Ref
         cCarta <- -1
 		
         Mientras (jCarta = -1 O cCarta = -1) Y alMazo = Falso Hacer
+       repetir
             Borrar Pantalla
             Escribir "========================================================================================"
             Escribir "|                                        MESA                                          |"
@@ -1148,7 +1163,15 @@ SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Ref
                     Escribir "5. Cantar/subir Truco"
                 FinSi
                 Escribir "6. Irse al mazo"
-                Leer accion
+                Leer entrada
+           si entrada = "1" o entrada = "2" o entrada = 3 Entonces
+              esValida = Verdadero
+           SiNo 
+             opcionInvalida(1,3)
+             esValida = Falso
+          Finsi
+     Hasta que esValida = Verdadero
+        accion<- convertirANumero(entrada)
                 Segun accion Hacer
                     1:
                         Repetir
