@@ -10,55 +10,10 @@ Algoritmo ProyectoFinalLaboratorio
     opcionJuego <- 0
     salir <- Falso
     Repetir
-        Borrar Pantalla
-    Escribir "   ________          __            __           __     __   "
-    Escribir "  |        \        |  \          |  \         |  \   |  \  "
-    Escribir "   \$$$$$$$$______   \$$  ______  | $$  ______ | $$   | $$  ______    ______    _______   ______ "
-    Escribir "     | $$  /      \ |  \ /      \ | $$ /      \| $$   | $$ /      \  /      \  /       \ /      \"
-    Escribir "     | $$ |  $$$$$$\| $$|  $$$$$$\| $$|  $$$$$$\\$$\ /  $$|  $$$$$$\|  $$$$$$\|  $$$$$$$|  $$$$$$\"
-    Escribir "     | $$ | $$   \$$| $$| $$  | $$| $$| $$    $$ \$$\  $$ | $$    $$| $$   \$$ \$$    \ | $$    $$"
-    Escribir "     | $$ | $$      | $$| $$__/ $$| $$| $$$$$$$$  \$$ $$  | $$$$$$$$| $$       _\$$$$$$\| $$$$$$$$"
-    Escribir "     | $$ | $$      | $$| $$    $$| $$ \$$     \   \$$$    \$$     \| $$      |       $$ \$$     \"
-    Escribir "     | $$ | $$      | $$| $$    $$| $$ \$$     \   \$$$    \$$     \| $$      |       $$ \$$     \
-    Escribir "      \$$  \$$       \$$| $$$$$$$  \$$  \$$$$$$$    \$      \$$$$$$$ \$$       \$$$$$$$   \$$$$$$$"
-    Escribir "                        | $$ "
-    Escribir "                        | $$ "
-    Escribir"                          \$$ "
-    Escribir " "
-    Escribir " "
-    Escribir "                        1                         "
-    Escribir "                  -------------                   "
-    Escribir "                 |    INICIO   |                  "
-    Escribir "                  -------------                   "
-    Escribir " "
-    Escribir "                        2                         " 
-    Escribir "                  --------------                  "
-    Escribir "                 | ESTADISTICAS |                 "
-    Escribir "                  --------------                  "
-    Escribir " "
-    Escribir "                        3                         " 
-    Escribir "                  -------------                   "
-    Escribir "                 | INFORMACION |                  "
-    Escribir "                  -------------                   "
-    Escribir " "
-    Escribir "                        0                         " 
-    Escribir "                  -------------                   "
-    Escribir "                 |    SALIR    |                  "
-    Escribir "                  -------------                   "
-    Escribir " "
-    Escribir " SELECCIONA UNA DE LAS OPCIONES PARA EMPEZAR A JUGAR O VOLVER AL MENU INICIAL.(1-2-3-0) "
-    Escribir " "
-        Leer opcionPrincipal
+     opcionPrincipal<-menuPrincipal 
         Segun opcionPrincipal Hacer
             1:
-                Borrar Pantalla
-                Escribir "========== SELECCION DE JUEGO =========="
-                Escribir "1. Truco"
-                Escribir "2. Ludo"
-                Escribir "3. Batalla naval"
-                Escribir "4. Volver al menu principal"
-                Escribir "Seleccione un juego:"
-                Leer opcionJuego
+                opcionJuego<- seleccionDeJuego
                 Segun opcionJuego Hacer
                     1:
                         partidasIniciadas <- partidasIniciadas + 1
@@ -116,6 +71,113 @@ Algoritmo ProyectoFinalLaboratorio
         FinSegun
     Hasta Que salir
 FinAlgoritmo
+
+Funcion menu<- menuPrincipal 
+Definir menu,in como Entero
+Borrar Pantalla
+    Escribir "   ________          __            __           __     __   "
+    Escribir "  |        \        |  \          |  \         |  \   |  \  "
+    Escribir "   \$$$$$$$$______   \$$  ______  | $$  ______ | $$   | $$  ______    ______    _______   ______ "
+    Escribir "     | $$  /      \ |  \ /      \ | $$ /      \| $$   | $$ /      \  /      \  /       \ /      \"
+    Escribir "     | $$ |  $$$$$$\| $$|  $$$$$$\| $$|  $$$$$$\\$$\ /  $$|  $$$$$$\|  $$$$$$\|  $$$$$$$|  $$$$$$\"
+    Escribir "     | $$ | $$   \$$| $$| $$  | $$| $$| $$    $$ \$$\  $$ | $$    $$| $$   \$$ \$$    \ | $$    $$"
+    Escribir "     | $$ | $$      | $$| $$__/ $$| $$| $$$$$$$$  \$$ $$  | $$$$$$$$| $$       _\$$$$$$\| $$$$$$$$"
+    Escribir "     | $$ | $$      | $$| $$    $$| $$ \$$     \   \$$$    \$$     \| $$      |       $$ \$$     \"
+    Escribir "     | $$ | $$      | $$| $$    $$| $$ \$$     \   \$$$    \$$     \| $$      |       $$ \$$     \
+    Escribir "      \$$  \$$       \$$| $$$$$$$  \$$  \$$$$$$$    \$      \$$$$$$$ \$$       \$$$$$$$   \$$$$$$$"
+    Escribir "                        | $$ "
+    Escribir "                        | $$ "
+    Escribir"                          \$$ "
+    Escribir " "
+    Escribir " "
+    Escribir "                        1                         "
+    Escribir "                  -------------                   "
+    Escribir "                 |    INICIO   |                  "
+    Escribir "                  -------------                   "
+    Escribir " "
+    Escribir "                        2                         " 
+    Escribir "                  --------------                  "
+    Escribir "                 | ESTADISTICAS |                 "
+    Escribir "                  --------------                  "
+    Escribir " "
+    Escribir "                        3                         " 
+    Escribir "                  -------------                   "
+    Escribir "                 | INFORMACION |                  "
+    Escribir "                  -------------                   "
+    Escribir " "
+    Escribir "                        0                         " 
+    Escribir "                  -------------                   "
+    Escribir "                 |    SALIR    |                  "
+    Escribir "                  -------------                   "
+    Escribir " "
+    Escribir " SELECCIONA UNA DE LAS OPCIONES PARA EMPEZAR A JUGAR O VOLVER AL MENU INICIAL.(1-2-3-0) "
+    Escribir " "
+    Leer in
+Borrar Pantalla
+Mientras in <0 o in >3 hacer
+    Escribir "   ________          __            __           __     __   "
+    Escribir "  |        \        |  \          |  \         |  \   |  \  "
+    Escribir "   \$$$$$$$$______   \$$  ______  | $$  ______ | $$   | $$  ______    ______    _______   ______ "
+    Escribir "     | $$  /      \ |  \ /      \ | $$ /      \| $$   | $$ /      \  /      \  /       \ /      \"
+    Escribir "     | $$ |  $$$$$$\| $$|  $$$$$$\| $$|  $$$$$$\\$$\ /  $$|  $$$$$$\|  $$$$$$\|  $$$$$$$|  $$$$$$\"
+    Escribir "     | $$ | $$   \$$| $$| $$  | $$| $$| $$    $$ \$$\  $$ | $$    $$| $$   \$$ \$$    \ | $$    $$"
+    Escribir "     | $$ | $$      | $$| $$__/ $$| $$| $$$$$$$$  \$$ $$  | $$$$$$$$| $$       _\$$$$$$\| $$$$$$$$"
+    Escribir "     | $$ | $$      | $$| $$    $$| $$ \$$     \   \$$$    \$$     \| $$      |       $$ \$$     \"
+    Escribir "     | $$ | $$      | $$| $$    $$| $$ \$$     \   \$$$    \$$     \| $$      |       $$ \$$     \
+    Escribir "      \$$  \$$       \$$| $$$$$$$  \$$  \$$$$$$$    \$      \$$$$$$$ \$$       \$$$$$$$   \$$$$$$$"
+    Escribir "                        | $$ "
+    Escribir "                        | $$ "
+    Escribir"                          \$$ "
+    Escribir " "
+    Escribir " "
+    Escribir "                        1                         "
+    Escribir "                  -------------                   "
+    Escribir "                 |    INICIO   |                  "
+    Escribir "                  -------------                   "
+    Escribir " "
+    Escribir "                        2                         " 
+    Escribir "                  --------------                  "
+    Escribir "                 | ESTADISTICAS |                 "
+    Escribir "                  --------------                  "
+    Escribir " "
+    Escribir "                        3                         " 
+    Escribir "                  -------------                   "
+    Escribir "                 | INFORMACION |                  "
+    Escribir "                  -------------                   "
+    Escribir " "
+    Escribir "                        0                         " 
+    Escribir "                  -------------                   "
+    Escribir "                 |    SALIR    |                  "
+    Escribir "                  -------------                   "
+    Escribir " "
+    Escribir " SELECCIONA UNA DE LAS OPCIONES PARA EMPEZAR A JUGAR O VOLVER AL MENU INICIAL.(1-2-3-0) "
+    Escribir " "
+    Leer in
+FinMientras
+menu<-in
+FinFuncion
+Funcion juego<-seleccionDeJuego
+Definir opcion como entero
+Borrar Pantalla
+                Escribir "========== SELECCION DE JUEGO =========="
+                Escribir "1. Truco"
+                Escribir "2. Ludo"
+                Escribir "3. Batalla naval"
+                Escribir "4. Volver al menu principal"
+                Escribir "Seleccione un juego:"
+                Leer opcion
+ Borrar Pantalla
+    Mientras opcionMenu<1 o opcionMenu>4 Hacer
+                Escribir "========== SELECCION DE JUEGO =========="
+                Escribir "1. Truco"
+                Escribir "2. Ludo"
+                Escribir "3. Batalla naval"
+                Escribir "4. Volver al menu principal"
+                Escribir "Seleccione un juego:"
+                Leer opcion
+    FinMientras
+juego<-opcion
+FinFuncion
 
 SubProceso EjecutarTruco
     Definir pMaximos, pJugador, pCPU, mazoIdx, dificultadCPU, manoInicial Como Entero
@@ -435,7 +497,7 @@ SubProceso MostrarMenuPrincipal(opcionMenu Por Referencia)
     Escribir " "
     Leer opcionMenu
     Borrar Pantalla
-    Mientras opcionMenu<>1 Y opcionMenu<>2 Y opcionMenu<>3 Hacer
+    Mientras opcionMenu<1 o opcionMenu>3 Hacer
         Escribir "   -  "
         Escribir "  |  \  "
         Escribir " _| $$_     ______   __    __   _______   ______"
