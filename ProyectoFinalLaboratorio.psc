@@ -180,63 +180,48 @@ juego<-opcion
 FinFuncion
 
 SubProceso EjecutarTruco
-    Definir pMaximos, pJugador, pCPU, mazoIdx, dificultadCPU, manoInicial, jugar Como Entero
+    Definir pMaximos, pJugador, pCPU, mazoIdx, dificultadCPU, manoInicial, opcionMenu Como Entero
     Definir nros, jers, envs, jNros, jJers, jEnvs, cNros, cJers, cEnvs Como Entero
     Definir palos, jPalos, cPalos Como Caracter
     Dimension nros[40], palos[40], jers[40], envs[40]
     Dimension jNros[3], jPalos[3], jJers[3], jEnvs[3]
     Dimension cNros[3], cPalos[3], cJers[3], cEnvs[3]
-
+    
     pMaximos <- 15
-    pJugador <- 0
-    pCPU <- 0
     mazoIdx <- 0
-    manoInicial <- Azar(2)
-    jugar<-MostrarMenuPrincipalTruco(opcionMenu Por Referencia)
-    si jugar = 1 entonces
-    ConfigurarPartida(pMaximos)
-    Borrar Pantalla
-    Escribir "========== DIFICULTAD DE LA CPU =========="
-    Escribir "1. Principiante: juega casi al azar y canta poco"
-    Escribir "2. Facil: prioriza cartas razonables"
-    Escribir "3. Dificil: calcula respuestas y conserva cartas fuertes"
-    Escribir "4. Experta: responde con la carta minima que gana y evalua apuestas"
     Repetir
-        Escribir "Seleccione dificultad (1-4):"
-        Leer dificultadCPU
-    Hasta Que dificultadCPU >= 1 Y dificultadCPU <= 4
-Mientras pJugador < pMaximos Y pCPU < pMaximos Hacer
-        CrearMazo(nros, palos, jers, envs)
-        Barajar(nros, palos, jers, envs)
-        mazoIdx <- 0
-        Repartir(nros, palos, jers, envs, jNros, jPalos, jJers, jEnvs, cNros, cPalos, cJers, cEnvs, mazoIdx)
-        JugarRonda(jNros, jPalos, jJers, jEnvs, cNros, cPalos, cJers, cEnvs, pJugador, pCPU, pMaximos, dificultadCPU, manoInicial)
-        manoInicial <- 1 - manoInicial
-    FinMientras
-    Borrar Pantalla
-    Escribir "================================================="
-    Escribir "               FIN DE LA PARTIDA"
-    Escribir "================================================="
-    Si pJugador >= pMaximos Entonces
-        Escribir "FELICIDADES! ERES EL GANADOR ABSOLUTO"
-    Sino
-        Escribir "LA CPU TE HA DERROTADO. SUERTE LA PROXIMA."
-    FinSi
-    Escribir "Puntaje Final -> Jugador: ", pJugador, " | CPU: ", pCPU
-    Escribir "Presione una tecla para volver al menu..."
-    Esperar Tecla
-   siNo
-     si jugar = 2 entonces
-        repetir 
-             MostrarReglas
-             InformacionDelTruco
-        hastaQue MostrarReglas = 2
-     sino
-        escribir "Saliendo..."
-        esperarTecla
-   finSi
+        pJugador <- 0
+        pCPU <- 0
+        manoInicial <- Azar(2)
+        opcionMenu <- MostrarMenuPrincipalTruco(opcionMenu)
+        Segun opcionMenu Hacer
+            1:
+                ConfigurarPartida(pMaximos)
+                dificultadCPU <- SeleccionarDificultadCPU()
+                
+                Mientras pJugador < pMaximos Y pCPU < pMaximos Hacer
+                    CrearMazo(nros, palos, jers, envs)
+                    Barajar(nros, palos, jers, envs)
+                    mazoIdx <- 0
+                    Repartir(nros, palos, jers, envs, jNros, jPalos, jJers, jEnvs, cNros, cPalos, cJers, cEnvs, mazoIdx)
+                    JugarRonda(jNros, jPalos, jJers, jEnvs, cNros, cPalos, cJers, cEnvs, pJugador, pCPU, pMaximos, dificultadCPU, manoInicial)
+                    manoInicial <- 1 - manoInicial
+                FinMientras
+                MostrarFinPartida(pJugador, pCPU, pMaximos)
+                
+            2:
+                MostrarReglas
+                
+            3:
+                Escribir "Saliendo..."
+                Esperar Tecla
+                
+            De Otro Modo:
+                Escribir "Opcion invalida."
+                Esperar 1 Segundos
+        FinSegun
+    Hasta Que opcionMenu = 3
 FinSubProceso
-
 SubProceso EjecutarLudo
     Definir MIN_JUGADORES, MAX_JUGADORES, POSICION_META Como Entero
     Definir cantidadJugadores, i, p, modoDeJuego Como Entero
@@ -295,6 +280,36 @@ SubProceso EjecutarBatallaNaval
     resultadoNaval <- Jugar(modo1, tamanioTablero)
 FinSubProceso
 
+Funcion dificultad <- SeleccionarDificultadCPU
+    Definir dificultad Como Entero
+    Borrar Pantalla
+    Escribir "========== DIFICULTAD DE LA CPU =========="
+    Escribir "1. Principiante: juega casi al azar y canta poco"
+    Escribir "2. Facil: prioriza cartas razonables"
+    Escribir "3. Dificil: calcula respuestas y conserva cartas fuertes"
+    Escribir "4. Experta: responde con la carta minima que gana y evalua apuestas"
+    Repetir
+        Escribir "Seleccione dificultad (1-4):"
+        Leer dificultad
+    Hasta Que dificultad >= 1 Y dificultad <= 4
+FinFuncion
+
+// --- NUEVO SUBPROCESO: MOSTRAR FIN DE PARTIDA ---
+SubProceso MostrarFinPartida(pJugador, pCPU, pMaximos)
+    Borrar Pantalla
+    Escribir "================================================="
+    Escribir "               FIN DE LA PARTIDA"
+    Escribir "================================================="
+    Si pJugador >= pMaximos Entonces
+        Escribir "FELICIDADES! ERES EL GANADOR ABSOLUTO"
+    Sino
+        Escribir "LA CPU TE HA DERROTADO. SUERTE LA PROXIMA."
+    FinSi
+    Escribir "Puntaje Final -> Jugador: ", pJugador, " | CPU: ", pCPU
+    Escribir "Presione una tecla para volver al menu..."
+    Esperar Tecla
+FinSubProceso
+
 SubProceso DibujarCartasOcultasCPU
     Definir i Como Entero
     Para i <- 0 Hasta 2 Hacer
@@ -343,7 +358,7 @@ SubProceso DibujarMesaHistorialGrafico(hJNros Por Referencia, hJPalos Por Refere
     Escribir ""
     Escribir "             MANO 1                       MANO 2                       MANO 3           "
     Escribir "        "
-
+	
     // Fila 1: Borde superior
     Para b <- 0 Hasta 2 Hacer
         Si hJNros[b] <> 0 Entonces 
@@ -358,7 +373,7 @@ SubProceso DibujarMesaHistorialGrafico(hJNros Por Referencia, hJPalos Por Refere
         FinSi
     FinPara
     Escribir ""
-
+	
     // Fila 2: Numero superior
     Para b <- 0 Hasta 2 Hacer
         Si hJNros[b] <> 0 Entonces
@@ -381,7 +396,7 @@ SubProceso DibujarMesaHistorialGrafico(hJNros Por Referencia, hJPalos Por Refere
         FinSi
     FinPara
     Escribir ""
-
+	
     // Fila 3: Palo abreviado
     Para b <- 0 Hasta 2 Hacer
         Si hJNros[b] <> 0 Entonces 
@@ -396,7 +411,7 @@ SubProceso DibujarMesaHistorialGrafico(hJNros Por Referencia, hJPalos Por Refere
         FinSi
     FinPara
     Escribir ""
-
+	
     // Fila 4: Borde inferior
     Para b <- 0 Hasta 2 Hacer
         Si hJNros[b] <> 0 Entonces 
@@ -456,26 +471,26 @@ SubProceso DibujarCartasJugadorGrande(nros Por Referencia, palos Por Referencia,
                 Escribir Sin Saltar "        |    ", nros[i], "  |   "
             Sino
                 Escribir Sin Saltar "        |   ", nros[i], "  |   "
-            FinSi
-        Sino
-            Escribir Sin Saltar "            "
-        FinSi
-    FinPara
-    Escribir ""
-
-    Para i <- 0 Hasta 2 Hacer
-        Si disp[i] = 1 Entonces 
-            Escribir Sin Saltar "        +-------+   " 
-        Sino 
-            Escribir Sin Saltar "            " 
-        FinSi
-    FinPara
-    Escribir " "
+				EndSi
+			Sino
+				Escribir Sin Saltar "            "
+			FinSi
+		FinPara
+		Escribir ""
+		
+		Para i <- 0 Hasta 2 Hacer
+			Si disp[i] = 1 Entonces 
+				Escribir Sin Saltar "        +-------+   " 
+			Sino 
+				Escribir Sin Saltar "            " 
+			FinSi
+		FinPara
+		Escribir " "
 FinSubProceso
 
 
 Funcion opcion <- MostrarMenuPrincipalTruco(opcionMenu Por Referencia)
-definir opcion, opcionMenu como entero
+	definir opcion, opcionMenu como entero
     opcionMenu <- 0
     Borrar Pantalla
     Escribir "   -  "
@@ -540,7 +555,7 @@ definir opcion, opcionMenu como entero
         Leer opcionMenu
         Borrar Pantalla
     FinMientras
-opcion<- opcionMenu
+	opcion<- opcionMenu
 FinFuncion
 
 SubProceso MostrarReglas
@@ -928,7 +943,7 @@ SubProceso ResolverEnvido(tipo, eJ, eC, pJ Por Referencia, pC Por Referencia, pM
         FinSi
         ptsGanados <- falta
     FinSi
-
+	
     probabilidad <- 25 + (dificultadCPU * 15) + (eC * 2)
     Si probabilidad > 95 Entonces 
         probabilidad <- 95 
@@ -936,7 +951,7 @@ SubProceso ResolverEnvido(tipo, eJ, eC, pJ Por Referencia, pC Por Referencia, pM
     Si Azar(100) <= probabilidad Entonces 
         acepta <- Verdadero 
     FinSi
-
+	
     Si acepta Entonces
         Escribir "CPU: ¡Quiero! Mi envido es ", eC, "."
         Escribir "Tu envido es ", eJ, "."
@@ -1074,16 +1089,16 @@ FinFuncion
 SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Referencia, jEnvs Por Referencia, cNros Por Referencia, cPalos Por Referencia, cJers Por Referencia, cEnvs Por Referencia, puntosJ Por Referencia, puntosC Por Referencia, pMaximos, dificultadCPU, manoInicial Por Referencia)
     Definir dispJ, dispC, resultadoMano Como Entero
     Dimension dispJ[3], dispC[3], resultadoMano[3]
-
+	
     Definir hJNros, hCNros Como Entero
     Definir hJPalos, hCPalos Como Caracter
     Dimension hJNros[3], hCNros[3], hJPalos[3], hCPalos[3]
-
+	
     Definir i, mano, jugadorLider, turno, cartaSel, jCarta, cCarta, ganador, ganadasJ, ganadasC Como Entero
     Definir envidoCantado, envidoJ, envidoC, estTruco, ptsTruco, turnoTruco, accion Como Entero
     Definir alMazo, turnoValido, primerCarta, puedeSubirJ Como Logico
     Definir msjMesa Como Caracter
-
+	
     Para i <- 0 Hasta 2 Hacer
         dispJ[i] <- 1
         dispC[i] <- 1
@@ -1108,7 +1123,7 @@ SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Ref
     jugadorLider <- manoInicial 
     envidoJ <- CalcularEnvido(jPalos, jEnvs)
     envidoC <- CalcularEnvido(cPalos, cEnvs)
-
+	
     Mientras mano < 3 Y alMazo = Falso Y puntosJ < pMaximos Y puntosC < pMaximos Hacer
         Si jugadorLider = 0 Entonces
             turno <- 0
@@ -1117,7 +1132,7 @@ SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Ref
         FinSi
         jCarta <- -1
         cCarta <- -1
-
+		
         Mientras (jCarta = -1 O cCarta = -1) Y alMazo = Falso Hacer
             Borrar Pantalla
             Escribir "========================================================================================"
@@ -1132,7 +1147,7 @@ SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Ref
             Escribir "Tus cartas:"
             DibujarCartasJugadorGrande(jNros, jPalos, dispJ)
             Escribir "Mano ", mano + 1, " | Mano ganadas: jugador ", ganadasJ, " - CPU ", ganadasC
-
+			
             Si turno = 0 Entonces
                 Escribir "Te toca jugar."
                 Escribir "1. Jugar carta"
@@ -1263,7 +1278,7 @@ SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Ref
                 FinSi
             FinSi
         FinMientras
-
+		
         Si alMazo = Falso Y jCarta <> -1 Y cCarta <> -1 Entonces
             msjMesa <- "Resultado Mano " + ConvertirATexto(mano + 1) + ": "
             Si jJers[jCarta] > cJers[cCarta] Entonces
@@ -1298,7 +1313,7 @@ SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Ref
             DibujarCartasJugadorGrande(jNros, jPalos, dispJ)
             Escribir msjMesa
             Esperar 2 Segundos
-
+			
             Si ganador = 0 Entonces
                 jugadorLider <- 0
             Sino
@@ -1308,14 +1323,14 @@ SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Ref
             FinSi
             mano <- mano + 1
         FinSi
-
+		
         Si ganadasJ >= 2 O ganadasC >= 2 Entonces
             mano <- 3
         FinSi
     FinMientras
-
+	
     Si alMazo = Falso Entonces
-        ganador <- DeterminarGanadorRonda(resultadoBaza, ganadasJ, ganadasC, manoInicial)
+        ganador <- DeterminarGanadorRonda(resultadoMano, ganadasJ, ganadasC, manoInicial)
         Si ganador = 0 Entonces
             Escribir "GANASTE LA RONDA. +", ptsTruco, " puntos."
             puntosJ <- puntosJ + ptsTruco
@@ -1385,6 +1400,7 @@ SubProceso ResolverEnvidoCPU(eJ, eC, pJ Por Referencia, pC Por Referencia, pMax,
     Escribir "Presione una tecla para continuar..."
     Esperar Tecla
 FinSubProceso
+
 //LUDO
 SubProceso verificarCaptura(idJugador, posGlobal, posicionTabla Por Referencia, estadoFicha Por Referencia)
     Definir j, p Como Entero
