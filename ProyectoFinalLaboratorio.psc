@@ -46,15 +46,15 @@ Algoritmo ProyectoFinalLaboratorio
             3:
                 Borrar Pantalla
                 Escribir "============= INFORMACION ============="
-                Escribir " Somos Ramiro, Sebastian y Rodrigo""
+                Escribir " Somos Ramiro, Sebastian y Rodrigo"
                 Escribir ""
-                Escribir "Creamos para este proyecto un arcade llamado 'TripleVerse' con tres juegos el LUDO, el TRUCO y LA BATALLA NAVAL:"
+                Escribir "Creamos para este proyecto un arcade llamado TripleVerse con tres juegos el LUDO, el TRUCO y LA BATALLA NAVAL:"
                 Escribir ""
                 Escribir "Creamos en conjunto un sistema con menu selectivos para entrar a jugar, ver estadisticas de juego, la informacion de nuestro trabajo y una opcion de salida."
                 Escribir ""
                 Escribir "Se crearon los tres juegos con su menu interno con la opcion de volver al menu principal de TRIPLEVERSE, los juegos pueden jugarse individualmente contra la cpu de cada juego"
                 Escribir ""
-                Escribir "En el caso del ludo pueden jugar hasta 4 jugadores en simultaneo local, mientras en el truco y la batalla naval estan pensados para jugar unicamente contra la cpu con sus ""
+                Escribir "En el caso del ludo pueden jugar hasta 4 jugadores en simultaneo local, mientras en el truco y la batalla naval estan pensados para jugar unicamente contra la cpu con sus "
                 Escribir ""
                 Escribir "respectivos niveles de inteligencia."
                 Escribir""
@@ -83,7 +83,7 @@ Borrar Pantalla
     Escribir "     | $$ | $$   \$$| $$| $$  | $$| $$| $$    $$ \$$\  $$ | $$    $$| $$   \$$ \$$    \ | $$    $$"
     Escribir "     | $$ | $$      | $$| $$__/ $$| $$| $$$$$$$$  \$$ $$  | $$$$$$$$| $$       _\$$$$$$\| $$$$$$$$"
     Escribir "     | $$ | $$      | $$| $$    $$| $$ \$$     \   \$$$    \$$     \| $$      |       $$ \$$     \"
-    Escribir "     | $$ | $$      | $$| $$    $$| $$ \$$     \   \$$$    \$$     \| $$      |       $$ \$$     \
+    Escribir "     | $$ | $$      | $$| $$    $$| $$ \$$     \   \$$$    \$$     \| $$      |       $$ \$$     \"
     Escribir "      \$$  \$$       \$$| $$$$$$$  \$$  \$$$$$$$    \$      \$$$$$$$ \$$       \$$$$$$$   \$$$$$$$"
     Escribir "                        | $$ "
     Escribir "                        | $$ "
@@ -123,7 +123,7 @@ Mientras in <0 o in >3 hacer
     Escribir "     | $$ | $$   \$$| $$| $$  | $$| $$| $$    $$ \$$\  $$ | $$    $$| $$   \$$ \$$    \ | $$    $$"
     Escribir "     | $$ | $$      | $$| $$__/ $$| $$| $$$$$$$$  \$$ $$  | $$$$$$$$| $$       _\$$$$$$\| $$$$$$$$"
     Escribir "     | $$ | $$      | $$| $$    $$| $$ \$$     \   \$$$    \$$     \| $$      |       $$ \$$     \"
-    Escribir "     | $$ | $$      | $$| $$    $$| $$ \$$     \   \$$$    \$$     \| $$      |       $$ \$$     \
+    Escribir "     | $$ | $$      | $$| $$    $$| $$ \$$     \   \$$$    \$$     \| $$      |       $$ \$$     \"
     Escribir "      \$$  \$$       \$$| $$$$$$$  \$$  \$$$$$$$    \$      \$$$$$$$ \$$       \$$$$$$$   \$$$$$$$"
     Escribir "                        | $$ "
     Escribir "                        | $$ "
@@ -156,27 +156,20 @@ Mientras in <0 o in >3 hacer
 FinMientras
 menu<-in
 FinFuncion
-Funcion juego<-seleccionDeJuego
-Definir opcion como entero
-Borrar Pantalla
-                Escribir "========== SELECCION DE JUEGO =========="
-                Escribir "1. Truco"
-                Escribir "2. Ludo"
-                Escribir "3. Batalla naval"
-                Escribir "4. Volver al menu principal"
-                Escribir "Seleccione un juego:"
-                Leer opcion
- Borrar Pantalla
-    Mientras opcionMenu<1 o opcionMenu>4 Hacer
-                Escribir "========== SELECCION DE JUEGO =========="
-                Escribir "1. Truco"
-                Escribir "2. Ludo"
-                Escribir "3. Batalla naval"
-                Escribir "4. Volver al menu principal"
-                Escribir "Seleccione un juego:"
-                Leer opcion
-    FinMientras
-juego<-opcion
+Funcion juego <- seleccionDeJuego
+
+	Definir opcionMenu, juego como entero
+	Repetir
+		Borrar Pantalla
+		Escribir "========== SELECCION DE JUEGO =========="
+		Escribir "1. Truco"
+		Escribir "2. Ludo"
+		Escribir "3. Batalla naval"
+		Escribir "4. Volver al menu principal"
+		Escribir "Seleccione un juego:"
+		Leer opcionMenu	
+	Mientras Que opcionMenu<1 o opcionMenu>4
+	juego<-opcionMenu
 FinFuncion
 
 SubProceso EjecutarTruco
@@ -471,11 +464,8 @@ SubProceso DibujarCartasJugadorGrande(nros Por Referencia, palos Por Referencia,
                 Escribir Sin Saltar "        |    ", nros[i], "  |   "
             Sino
                 Escribir Sin Saltar "        |   ", nros[i], "  |   "
-				EndSi
-			Sino
-				Escribir Sin Saltar "            "
 			FinSi
-		FinPara
+		FinSi
 		Escribir ""
 		
 		Para i <- 0 Hasta 2 Hacer
@@ -486,11 +476,12 @@ SubProceso DibujarCartasJugadorGrande(nros Por Referencia, palos Por Referencia,
 			FinSi
 		FinPara
 		Escribir " "
+	FinPara
 FinSubProceso
 
 
 Funcion opcion <- MostrarMenuPrincipalTruco(opcionMenu Por Referencia)
-	definir opcion, opcionMenu como entero
+	definir opcion como entero
     opcionMenu <- 0
     Borrar Pantalla
     Escribir "   -  "
@@ -953,7 +944,7 @@ SubProceso ResolverEnvido(tipo, eJ, eC, pJ Por Referencia, pC Por Referencia, pM
     FinSi
 	
     Si acepta Entonces
-        Escribir "CPU: Â¡Quiero! Mi envido es ", eC, "."
+        Escribir "CPU: ¡Quiero! Mi envido es ", eC, "."
         Escribir "Tu envido es ", eJ, "."
         ganaJ <- 0
         Si eJ > eC Entonces
@@ -994,7 +985,7 @@ SubProceso ResolverTrucoJugador(estTruco Por Referencia, ptsTruco Por Referencia
         probabilidad <- 95 
     FinSi
     Si Azar(100) <= probabilidad Entonces
-        Escribir "CPU: Â¡Quiero!"
+        Escribir "CPU: ¡Quiero!"
         estTruco <- estTruco + 1
         ptsTruco <- ptsSiguiente
         turnoTruco <- 0
@@ -1009,9 +1000,9 @@ FinSubProceso
 Funcion nombre <- NombreCantoTruco(nivel)
     Definir nombre Como Caracter
     Segun nivel Hacer
-        0: nombre <- "Â¡Truco!"
-        1: nombre <- "Â¡Retruco!"
-        2: nombre <- "Â¡Vale cuatro!"
+        0: nombre <- "¡Truco!"
+        1: nombre <- "¡Retruco!"
+        2: nombre <- "¡Vale cuatro!"
         De Otro Modo: nombre <- "Truco"
     FinSegun
 FinFuncion
@@ -1226,7 +1217,7 @@ SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Ref
                         Escribir "Tus cartas:"
                         DibujarCartasJugadorGrande(jNros, jPalos, dispJ)
                         Escribir ""
-                        Escribir "Â¡ATENCIÃ“N! La CPU canta ENVIDO."
+                        Escribir "¡ATENCIÓN! La CPU canta ENVIDO."
                         Escribir "1. Quiero"
                         Escribir "2. No quiero"
                         Leer accion
@@ -1402,29 +1393,6 @@ SubProceso ResolverEnvidoCPU(eJ, eC, pJ Por Referencia, pC Por Referencia, pMax,
 FinSubProceso
 
 //LUDO
-SubProceso verificarCaptura(idJugador, posGlobal, posicionTabla Por Referencia, estadoFicha Por Referencia)
-    Definir j, p Como Entero
-    Definir globalRival Como Entero
-    globalRival <- 0
-    j <- 0
-    p <- 0
-    Si esCasillaSegura(posGlobal) = Falso Y posGlobal >= 1 Y posGlobal <= 51 Entonces
-        Para j <- 1 Hasta 4 Hacer
-            Si j <> idJugador Entonces
-                Para p <- 1 Hasta 4 Hacer
-                    Si estadoFicha[j, p] Y posicionTabla[j, p] >= 1 Y posicionTabla[j, p] <= 51 Entonces
-                        globalRival <- (((j - 1) * 13 + (posicionTabla[j, p] - 1)) MOD 52) + 1
-                        Si globalRival = posGlobal Entonces
-                            estadoFicha[j, p] <- Falso
-                            posicionTabla[j, p] <- 0
-                            Escribir " Â¡CAPTURA! Â¡La ficha ", p, " del Jugador ", j, " fue enviada a casa!"
-                        FinSi
-                    FinSi
-                FinPara
-            FinSi
-        FinPara
-    FinSi
-FinSubProceso
 
 Funcion esSeguro <- esCasillaSegura(posGlobal)
     Definir esSeguro Como Logico
@@ -1477,7 +1445,7 @@ SubProceso verificarCaptura(idJugador, posGlobal, posicionTabla Por Referencia, 
                         Si globalRival = posGlobal Entonces
                             estadoFicha[j, p] <- Falso
                             posicionTabla[j, p] <- 0
-                            Escribir " Â¡CAPTURA! Â¡La ficha ", p, " del Jugador ", j, " fue enviada a casa!"
+                            Escribir " ¡CAPTURA! ¡La ficha ", p, " del Jugador ", j, " fue enviada a casa!"
                         FinSi
                     FinSi
                 FinPara
@@ -1486,46 +1454,10 @@ SubProceso verificarCaptura(idJugador, posGlobal, posicionTabla Por Referencia, 
     FinSi
 FinSubProceso
 
-Funcion esSeguro <- esCasillaSegura(posGlobal)
-    Definir esSeguro Como Logico
-    esSeguro <- Falso
-    Si posGlobal = 1 O posGlobal = 14 O posGlobal = 27 O posGlobal = 40 O posGlobal = 9 O posGlobal = 22 O posGlobal = 35 O posGlobal = 48 Entonces
-        esSeguro <- Verdadero
-    FinSi
-FinFuncion
-
-SubProceso EjecutarBucleJuego(cantidadJugadores, POSICION_META, juegoActivo Por Referencia, tablero, posicionTabla Por Referencia, estadoFicha Por Referencia, esVsPC)
-    Definir i Como Entero
-    i <- 0
-    Mientras juegoActivo Hacer
-        Para i <- 1 Hasta cantidadJugadores Hacer
-            Si juegoActivo Entonces
-                Borrar Pantalla
-                Escribir "----------------------------------------------------------------"
-                
-                Si esVsPC Y i = 2 Entonces
-                    Escribir "Turno de la COMPUTADORA (Jugador 2)..."
-                    procesarTurnoPC(i, posicionTabla, estadoFicha, tablero, cantidadJugadores, POSICION_META, juegoActivo)
-					
-                Sino
-                    procesarTurnoJugador(i, posicionTabla, estadoFicha, tablero, cantidadJugadores, POSICION_META, juegoActivo)
-					imprimirMatriz(tablero)
-                FinSi
-                
-                Si juegoActivo Entonces
-                    Escribir ""
-                    Escribir "Presione una tecla para finalizar su turno y pasar al siguiente..."
-                    Esperar Tecla
-                FinSi
-            FinSi
-        FinPara
-    FinMientras
-FinSubProceso
-
 Funcion llamarGanador(numeroJugador)
     Escribir ""
     Escribir "===================================="
-    Escribir "  Â¡GANO EL JUGADOR NRO: ", numeroJugador, "!"
+    Escribir "  ¡GANO EL JUGADOR NRO: ", numeroJugador, "!"
     Escribir "===================================="
 FinFuncion
 
@@ -1566,10 +1498,10 @@ Funcion modoDeJuego <- llamarModoDeJuego
         Leer modoDeJuego
         
         Si modoDeJuego < 1 O modoDeJuego > 3 Entonces
-            Escribir " Â¡Opcion invalida! Por favor, ingrese un valor entre 1 y 3."
+            Escribir " ¡Opcion invalida! Por favor, ingrese un valor entre 1 y 3."
             Esperar Tecla
         FinSi
-    Fin Mientras
+    FinMientras
     Borrar Pantalla
 FinFuncion
 
@@ -1698,7 +1630,7 @@ SubProceso sacarFichaDeCasa(idJugador, posicionTabla Por Referencia, estadoFicha
         Si NO estadoFicha[idJugador, p] Entonces
             estadoFicha[idJugador, p] <- Verdadero
             posicionTabla[idJugador, p] <- 1
-            Escribir "Â¡Ficha ", p, " salio de la casa a la posicion 1!"
+            Escribir "¡Ficha ", p, " salio de la casa a la posicion 1!"
             p <- 4
         FinSi
     FinPara
@@ -1741,7 +1673,7 @@ SubProceso elegirY1MoverFicha(idJugador, dado, posicionTabla Por Referencia, est
             
             movimientoValido <- Verdadero
         Sino
-            Escribir "Â¡Esa ficha no esta activa o ya llego a la meta! Por favor, elija otra."
+            Escribir "¡Esa ficha no esta activa o ya llego a la meta! Por favor, elija otra."
         FinSi
     Hasta Que movimientoValido
 FinSubProceso
@@ -1774,11 +1706,11 @@ SubProceso procesarTurnoJugador(idJugador, posicionTabla Por Referencia, estadoF
         
         Si dado = 6 Entonces
             turnoExtra <- Verdadero
-            Escribir " Â¡Obtuviste un 6! Tienes derecho a un turno extra despues de jugar."
+            Escribir " ¡Obtuviste un 6! Tienes derecho a un turno extra despues de jugar."
         FinSi
         
         Si dado = 6 Y hayEnCasa Y hayEnTablero Entonces
-            Escribir "Â¿Que deseas hacer?"
+            Escribir "¿Que deseas hacer?"
             Escribir "1. Sacar una ficha de la casa"
             Escribir "2. Mover una ficha que ya esta en el tablero"
             opcionAccion <- leerEnteroEntre(1, 2, "Elija una opcion")
@@ -1806,7 +1738,7 @@ SubProceso procesarTurnoJugador(idJugador, posicionTabla Por Referencia, estadoF
         
         Si turnoExtra Y juegoActivo Entonces
             Escribir ""
-            Escribir " Â¡Por haber sacado un 6, tiras el dado nuevamente!"
+            Escribir " ¡Por haber sacado un 6, tiras el dado nuevamente!"
             Escribir "Presione una tecla para continuar..."
 			imprimirMatriz(tablero)
             Esperar Tecla
@@ -1837,7 +1769,7 @@ SubProceso procesarTurnoPC(idJugador, posicionTabla Por Referencia, estadoFicha 
         
         Si dado = 6 Entonces
             turnoExtra <- Verdadero
-            Escribir " Â¡La PC obtuvo un 6 y gano un turno extra!"
+            Escribir " ¡La PC obtuvo un 6 y gano un turno extra!"
         FinSi
         
         Si dado = 6 Y hayEnCasa Y NO accionRealizada Entonces
@@ -1858,7 +1790,7 @@ SubProceso procesarTurnoPC(idJugador, posicionTabla Por Referencia, estadoFicha 
         
         Si turnoExtra Y juegoActivo Entonces
             Escribir ""
-            Escribir " Â¡La PC tirara el dado nuevamente por haber obtenido un 6!"
+            Escribir " ¡La PC tirara el dado nuevamente por haber obtenido un 6!"
             Esperar 1.5 Segundos
         FinSi
         
@@ -2135,27 +2067,6 @@ SubProceso MostrarPortada
     Escribir ".. ................................. ................................. ........."
     Escribir "...... .......... ......................................................... ...."
 FinSubProceso
-
-Funcion opcionElegida <- MenuPrincipal
-    Definir opcionElegida Como Entero
-    opcionElegida <- 0
-    Escribir ""
-    Escribir "=========================================="
-    Escribir "             BATALLA NAVAL"
-    Escribir "=========================================="
-    Escribir ""
-    Escribir "             MENU PRINCIPAL"
-    Escribir ""
-    Escribir "        1. Jugar"
-    Escribir "        2. Instrucciones"
-    Escribir "        3. Configuracion"
-    Escribir "        4. Salir"
-    Escribir ""
-    Escribir "=========================================="
-    Escribir ""
-    Escribir "Seleccione una opcion: "
-    Leer opcionElegida
-FinFuncion
 
 Funcion resultado <- Jugar(modo1, n)
     Definir tablero, tableroDisparosBot, tableroBot, tableroDisparosJugador Como Caracter
@@ -2549,7 +2460,7 @@ Funcion h <- VerificarBarcoHundido(tableroReal, tableroDisparos, n, tam)
     Para i <- 1 Hasta n Hacer
         Para j <- 1 Hasta n Hacer
             // Si encontramos una parte de un barco no evaluada o simplemente barriendo cada celda 'B' real:
-            // Una forma simple: verificar si existe un barco de tamaÃ±o 'tam' horizontal o vertical a partir de i,j que estÃ© 100% tocado ("X")
+            // Una forma simple: verificar si existe un barco de tamaño 'tam' horizontal o vertical a partir de i,j que esté 100% tocado ("X")
             
             // Chequear Horizontal
             Si j + tam - 1 <= n Entonces
@@ -2610,16 +2521,16 @@ SubProceso DisparoJugador(tableroBot, tableroDisparosJugador, n)
         tableroDisparosJugador[filaJugador, colJugador] <- "X"
         Escribir "Impacto! Le diste a un barco enemigo."
         
-        // Verificamos si con este impacto se hundiÃ³ algÃºn barco revisando los barcos restantes del bot
+        // Verificamos si con este impacto se hundió algún barco revisando los barcos restantes del bot
         // (Nota: Para un aviso exacto de "hundido", validamos si hay barcos completos de 5, 4 o 3)
         Si VerificarBarcoHundido(tableroBot, tableroDisparosJugador, n, 5) = 1 Entonces
-            Escribir "Â¡Has hundido el barco de 5 casillas del enemigo!"
+            Escribir "¡Has hundido el barco de 5 casillas del enemigo!"
         Sino
             Si VerificarBarcoHundido(tableroBot, tableroDisparosJugador, n, 4) >= 1 Entonces
-                Escribir "Â¡Has hundido un barco de 4 casillas del enemigo!"
+                Escribir "¡Has hundido un barco de 4 casillas del enemigo!"
             Sino
                 Si VerificarBarcoHundido(tableroBot, tableroDisparosJugador, n, 3) = 1 Entonces
-                    Escribir "Â¡Has hundido el barco de 3 casillas del enemigo!"
+                    Escribir "¡Has hundido el barco de 3 casillas del enemigo!"
                 FinSi
             FinSi
         FinSi
