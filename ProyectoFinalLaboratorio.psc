@@ -180,7 +180,7 @@ juego<-opcion
 FinFuncion
 
 SubProceso EjecutarTruco
-    Definir pMaximos, pJugador, pCPU, mazoIdx, dificultadCPU, manoInicial Como Entero
+    Definir pMaximos, pJugador, pCPU, mazoIdx, dificultadCPU, manoInicial, jugar Como Entero
     Definir nros, jers, envs, jNros, jJers, jEnvs, cNros, cJers, cEnvs Como Entero
     Definir palos, jPalos, cPalos Como Caracter
     Dimension nros[40], palos[40], jers[40], envs[40]
@@ -191,9 +191,10 @@ SubProceso EjecutarTruco
     pJugador <- 0
     pCPU <- 0
     mazoIdx <- 0
-    manoInicial <- Azar(2) 
+    manoInicial <- Azar(2)
+    jugar<-MostrarMenuPrincipalTruco(opcionMenu Por Referencia)
+    si jugar = 1 entonces
     ConfigurarPartida(pMaximos)
-    SubProceso MostrarMenuPrincipal(opcionMenu Por Referencia)
     Borrar Pantalla
     Escribir "========== DIFICULTAD DE LA CPU =========="
     Escribir "1. Principiante: juega casi al azar y canta poco"
@@ -204,8 +205,7 @@ SubProceso EjecutarTruco
         Escribir "Seleccione dificultad (1-4):"
         Leer dificultadCPU
     Hasta Que dificultadCPU >= 1 Y dificultadCPU <= 4
-
-    Mientras pJugador < pMaximos Y pCPU < pMaximos Hacer
+Mientras pJugador < pMaximos Y pCPU < pMaximos Hacer
         CrearMazo(nros, palos, jers, envs)
         Barajar(nros, palos, jers, envs)
         mazoIdx <- 0
@@ -225,6 +225,16 @@ SubProceso EjecutarTruco
     Escribir "Puntaje Final -> Jugador: ", pJugador, " | CPU: ", pCPU
     Escribir "Presione una tecla para volver al menu..."
     Esperar Tecla
+   siNo
+     si jugar = 2 entonces
+        repetir 
+             MostrarReglas
+             InformacionDelTruco
+        hastaQue MostrarReglas = 2
+     sino
+        escribir "Saliendo..."
+        esperarTecla
+   finSi
 FinSubProceso
 
 SubProceso EjecutarLudo
@@ -464,7 +474,8 @@ SubProceso DibujarCartasJugadorGrande(nros Por Referencia, palos Por Referencia,
 FinSubProceso
 
 
-SubProceso MostrarMenuPrincipal(opcionMenu Por Referencia)
+Funcion opcion <- MostrarMenuPrincipalTruco(opcionMenu Por Referencia)
+definir opcion, opcionMenu como entero
     opcionMenu <- 0
     Borrar Pantalla
     Escribir "   -  "
@@ -529,7 +540,8 @@ SubProceso MostrarMenuPrincipal(opcionMenu Por Referencia)
         Leer opcionMenu
         Borrar Pantalla
     FinMientras
-FinSubProceso
+opcion<- opcionMenu
+FinFuncion
 
 SubProceso MostrarReglas
     Definir opcion Como Entero
