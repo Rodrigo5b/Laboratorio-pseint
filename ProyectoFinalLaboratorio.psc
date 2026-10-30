@@ -127,7 +127,20 @@ FinFuncion
 Funcion juego <- seleccionDeJuego
 	Definir juego como caracter
 	Borrar Pantalla
-	Escribir "=============== SELECCION DE JUEGO ==============="
+	Escribir "    _____ "
+    Escribir "   |     \"
+    Escribir "    \$$$$$ __    __   ______    ______    ______    _______"
+    Escribir "      | $$|  \  |  \ /      \  /      \  /      \  /       \"
+    Escribir " __   | $$| $$  | $$|  $$$$$$\|  $$$$$$\|  $$$$$$\|  $$$$$$$"
+    Escribir "|  \  | $$| $$  | $$| $$    $$| $$  | $$| $$  | $$ \$$    \"
+    Escribir "| $$__| $$| $$__/ $$| $$$$$$$$| $$__| $$| $$__/ $$ _\$$$$$$\"
+    Escribir " \$$    $$ \$$    $$ \$$     \ \$$    $$ \$$    $$|       $$"
+    Escribir "  \$$$$$$   \$$$$$$   \$$$$$$$ _\$$$$$$$  \$$$$$$  \$$$$$$$ "
+    Escribir"                               |  \__| $$ "
+    Escribir"                                \$$    $$"
+    Escribir"                                 \$$$$$$ "
+    Escribir" "
+    Escribir" "
 	Escribir "                        1                         "
 	Escribir "                  -------------                   "
 	Escribir "                 |    TRUCO    |                  "
@@ -135,22 +148,62 @@ Funcion juego <- seleccionDeJuego
 	Escribir " "
 	Escribir "                        2                         " 
 	Escribir "                  --------------                  "
-	Escribir "                 | 	    LUDO     |                 "
+	Escribir "                 | 	 LUDO     |                 "
 	Escribir "                  --------------                  "
 	Escribir " "
 	Escribir "                        3                         " 
-	Escribir "                  --------------                   "
-	Escribir "                 |   BATALLA    |                  "
-	Escribir "                 |    NAVAL     |                  "
-	Escribir "                  --------------                   "
+	Escribir "                  --------------                  "
+	Escribir "                 |    BATALLA   |                 "
+	Escribir "                 |     NAVAL    |                 "
+	Escribir "                  --------------                  "
 	Escribir " "
 	Escribir "                        4                         " 
 	Escribir "                  -------------                   "
-	Escribir "                 |    VOLVER   |              "
+	Escribir "                 |    VOLVER   |                  "
 	Escribir "                  -------------                   "
 	Escribir " "
 	Escribir " SELECCIONA UNA DE LAS OPCIONES PARA EMPEZAR A JUGAR O VOLVER AL MENU INICIAL.(1-2-3-4) "
 	Leer juego
+    Mientras juego <1 o juegos>4 hacer
+    Borrar Pantalla
+	Escribir "    _____ "
+    Escribir "   |     \"
+    Escribir "    \$$$$$ __    __   ______    ______    ______    _______"
+    Escribir "      | $$|  \  |  \ /      \  /      \  /      \  /       \"
+    Escribir " __   | $$| $$  | $$|  $$$$$$\|  $$$$$$\|  $$$$$$\|  $$$$$$$"
+    Escribir "|  \  | $$| $$  | $$| $$    $$| $$  | $$| $$  | $$ \$$    \"
+    Escribir "| $$__| $$| $$__/ $$| $$$$$$$$| $$__| $$| $$__/ $$ _\$$$$$$\"
+    Escribir " \$$    $$ \$$    $$ \$$     \ \$$    $$ \$$    $$|       $$"
+    Escribir "  \$$$$$$   \$$$$$$   \$$$$$$$ _\$$$$$$$  \$$$$$$  \$$$$$$$ "
+    Escribir"                               |  \__| $$ "
+    Escribir"                                \$$    $$"
+    Escribir"                                 \$$$$$$ "
+    Escribir" "
+    Escribir" "
+	Escribir "                        1                         "
+	Escribir "                  -------------                   "
+	Escribir "                 |    TRUCO    |                  "
+	Escribir "                  -------------                   "
+	Escribir " "
+	Escribir "                        2                         " 
+	Escribir "                  --------------                  "
+	Escribir "                 | 	 LUDO     |                 "
+	Escribir "                  --------------                  "
+	Escribir " "
+	Escribir "                        3                         " 
+	Escribir "                  --------------                  "
+	Escribir "                 |    BATALLA   |                 "
+	Escribir "                 |     NAVAL    |                 "
+	Escribir "                  --------------                  "
+	Escribir " "
+	Escribir "                        4                         " 
+	Escribir "                  -------------                   "
+	Escribir "                 |    VOLVER   |                  "
+	Escribir "                  -------------                   "
+	Escribir " "
+	Escribir " SELECCIONA UNA DE LAS OPCIONES PARA EMPEZAR A JUGAR O VOLVER AL MENU INICIAL.(1-2-3-4) "
+	Leer juego
+    FinMientras
 FinFuncion
 
 SubProceso EjecutarTruco
@@ -295,7 +348,6 @@ Funcion dificultad <- SeleccionarDificultadCPU
     Hasta Que dificultad >= 1 Y dificultad <= 4
 FinFuncion
 
-// --- NUEVO SUBPROCESO: MOSTRAR FIN DE PARTIDA ---
 SubProceso MostrarFinPartida(pJugador, pCPU, pMaximos)
     Borrar Pantalla
     Escribir "================================================="
@@ -360,7 +412,6 @@ SubProceso DibujarMesaHistorialGrafico(hJNros Por Referencia, hJPalos Por Refere
     Escribir "             MANO 1                       MANO 2                       MANO 3           "
     Escribir "        "
 	
-    // Fila 1: Borde superior
     Para b <- 0 Hasta 2 Hacer
         Si hJNros[b] <> 0 Entonces 
             Escribir Sin Saltar "+-------+ " 
@@ -375,7 +426,6 @@ SubProceso DibujarMesaHistorialGrafico(hJNros Por Referencia, hJPalos Por Refere
     FinPara
     Escribir ""
 	
-    // Fila 2: Numero superior
     Para b <- 0 Hasta 2 Hacer
         Si hJNros[b] <> 0 Entonces
             Si hJNros[b] < 10 Entonces 
@@ -398,7 +448,6 @@ SubProceso DibujarMesaHistorialGrafico(hJNros Por Referencia, hJPalos Por Refere
     FinPara
     Escribir ""
 	
-    // Fila 3: Palo abreviado
     Para b <- 0 Hasta 2 Hacer
         Si hJNros[b] <> 0 Entonces 
             Escribir Sin Saltar "|  ", ObtenerAbrevPalo(hJPalos[b]), "  | " 
@@ -413,7 +462,6 @@ SubProceso DibujarMesaHistorialGrafico(hJNros Por Referencia, hJPalos Por Refere
     FinPara
     Escribir ""
 	
-    // Fila 4: Borde inferior
     Para b <- 0 Hasta 2 Hacer
         Si hJNros[b] <> 0 Entonces 
             Escribir Sin Saltar "+-------+ " 
@@ -486,6 +534,7 @@ SubProceso DibujarCartasJugadorGrande(nros Por Referencia, palos Por Referencia,
 		Escribir " "
 	FinPara
 FinSubProceso
+
 Funcion opcionMenu <- MostrarMenuPrincipalTruco
 	definir opcionMenu como caracter
     Borrar Pantalla
@@ -639,7 +688,6 @@ FinSubProceso
 
 SubProceso ConfigurarPartida(puntajeMaximo Por Referencia)
     Definir puntos Como Caracter
-    puntos <- ""
     Repetir
         Borrar Pantalla
         Escribir "                               __  "
@@ -1098,7 +1146,7 @@ SubProceso JugarRonda(jNros Por Referencia, jPalos Por Referencia, jJers Por Ref
         Mientras (jCarta = -1 O cCarta = -1) Y alMazo = Falso Hacer
             Borrar Pantalla
             Escribir "========================================================================================"
-            Escribir "|                                  MESA DE TRUCO ARGENTO                               |"
+            Escribir "|                                        MESA                                          |"
             Escribir "========================================================================================"
             Escribir "| NOSOTROS: ", puntosJ, " / ", pMaximos, "                  CPU: ", puntosC, " / ", pMaximos, " |"
             Escribir "----------------------------------------------------------------------------------------"
@@ -1633,7 +1681,6 @@ SubProceso elegirY1MoverFicha(idJugador, dado, posicionTabla Por Referencia, est
                 Limpiar Pantalla
             FinPara
             
-            // Evaluar captura UNICAAMENTE al finalizar la cantidad total de pasos
             Si posicionTabla[idJugador, fichaElegida] <= 51 Entonces
                 posGlb <- (((idJugador - 1) * 13 + (posicionTabla[idJugador, fichaElegida] - 1)) MOD 52) + 1
                 verificarCaptura(idJugador, posGlb, posicionTabla, estadoFicha)
@@ -1806,7 +1853,6 @@ SubProceso pcMoverFichaTablero(idJugador, dado, posicionTabla Por Referencia, es
                 FinSi
             FinPara
             
-            // Evaluar captura UNICAAMENTE al finalizar el movimiento de la PC
             Si posicionTabla[idJugador, p] <= 51 Entonces
                 posGlb <- (((idJugador - 1) * 13 + (posicionTabla[idJugador, p] - 1)) MOD 52) + 1
                 verificarCaptura(idJugador, posGlb, posicionTabla, estadoFicha)
