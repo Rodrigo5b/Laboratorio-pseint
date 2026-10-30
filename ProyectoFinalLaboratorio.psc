@@ -1,7 +1,7 @@
 Algoritmo ProyectoFinalLaboratorio
-    Definir partidasIniciadas, partidasTruco, partidasLudo, partidasNaval Como Entero
+    Definir partidasIniciadas, partidasTruco, partidasLudo, partidasNaval,opcionPrincipal, opcionJuego Como Entero
     Definir salirMenuPrincipal, salirJuego Como Logico
-	Definir opcionPrincipal, opcionJuego Como Caracter
+	Definir entrada Como Cadena
 	
     partidasIniciadas <- 0
     partidasTruco <- 0
@@ -10,11 +10,19 @@ Algoritmo ProyectoFinalLaboratorio
     salirMenuPrincipal <- Falso
 	salirJuego <- Falso
 	Repetir
-		opcionPrincipal <- menuPrincipal
+        repetir
+        entrada <- menuPrincipal
+        Borrar Pantalla
+        Hasta que ValidarOpcionMenu(entrada)
+      opcionPrincipal = ConvertirANumero(entrada)
 		Segun opcionPrincipal Hacer
             '1':
 				Repetir
-					opcionJuego <- seleccionDeJuego
+                        repetir
+                        entrada <- seleccionDeJuego
+                        Borrar Pantalla
+                        Hasta que ValidarOpcionMenu(entrada)
+                        opcionJuego = ConvertirANumero(entrada)
 					Segun opcionJuego Hacer
 						'1':
 							partidasIniciadas <- partidasIniciadas + 1
@@ -81,6 +89,16 @@ Funcion opcionInvalida(min, max)
 	Escribir "Aprete una tecla cualquiera para ver el menu de vuelta:"
 	Esperar Tecla
 	Borrar Pantalla
+FinFuncion
+
+Funcion esValida <- ValidarOpcionMenu(entradaTemp)
+Definir esValida como logico
+si entradaTemp = "1" o entradaTemp = "2" o entradaTemp = 3 o entradaTemp = 4 Entonces
+    esValida = Verdadero
+SiNo 
+   opcionInvalida(1,4)
+   esValida = Falso
+Finsi
 FinFuncion
 
 Funcion menu<- menuPrincipal 
@@ -164,46 +182,6 @@ Funcion juego <- seleccionDeJuego
 	Escribir " "
 	Escribir " SELECCIONA UNA DE LAS OPCIONES PARA EMPEZAR A JUGAR O VOLVER AL MENU INICIAL.(1-2-3-4) "
 	Leer juego
-    Mientras juego <1 o juegos>4 hacer
-    Borrar Pantalla
-	Escribir "    _____ "
-    Escribir "   |     \"
-    Escribir "    \$$$$$ __    __   ______    ______    ______    _______"
-    Escribir "      | $$|  \  |  \ /      \  /      \  /      \  /       \"
-    Escribir " __   | $$| $$  | $$|  $$$$$$\|  $$$$$$\|  $$$$$$\|  $$$$$$$"
-    Escribir "|  \  | $$| $$  | $$| $$    $$| $$  | $$| $$  | $$ \$$    \"
-    Escribir "| $$__| $$| $$__/ $$| $$$$$$$$| $$__| $$| $$__/ $$ _\$$$$$$\"
-    Escribir " \$$    $$ \$$    $$ \$$     \ \$$    $$ \$$    $$|       $$"
-    Escribir "  \$$$$$$   \$$$$$$   \$$$$$$$ _\$$$$$$$  \$$$$$$  \$$$$$$$ "
-    Escribir"                               |  \__| $$ "
-    Escribir"                                \$$    $$"
-    Escribir"                                 \$$$$$$ "
-    Escribir" "
-    Escribir" "
-	Escribir "                        1                         "
-	Escribir "                  -------------                   "
-	Escribir "                 |    TRUCO    |                  "
-	Escribir "                  -------------                   "
-	Escribir " "
-	Escribir "                        2                         " 
-	Escribir "                  --------------                  "
-	Escribir "                 | 	 LUDO     |                 "
-	Escribir "                  --------------                  "
-	Escribir " "
-	Escribir "                        3                         " 
-	Escribir "                  --------------                  "
-	Escribir "                 |    BATALLA   |                 "
-	Escribir "                 |     NAVAL    |                 "
-	Escribir "                  --------------                  "
-	Escribir " "
-	Escribir "                        4                         " 
-	Escribir "                  -------------                   "
-	Escribir "                 |    VOLVER   |                  "
-	Escribir "                  -------------                   "
-	Escribir " "
-	Escribir " SELECCIONA UNA DE LAS OPCIONES PARA EMPEZAR A JUGAR O VOLVER AL MENU INICIAL.(1-2-3-4) "
-	Leer juego
-    FinMientras
 FinFuncion
 
 SubProceso EjecutarTruco
