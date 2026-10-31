@@ -1500,7 +1500,7 @@ SubProceso EjecutarBucleJuego(cantidadJugadores, POSICION_META, juegoActivo Por 
         FinPara
     FinMientras
 FinSubProceso
- 
+
 SubProceso verificarCaptura(idJugador, posGlobal, posicionTabla Por Referencia, estadoFicha Por Referencia)
     Definir j, p Como Entero
     Definir globalRival Como Entero
@@ -1705,7 +1705,7 @@ SubProceso elegirY1MoverFicha(idJugador, dado, posicionTabla Por Referencia, est
         Si estadoFicha[idJugador, fichaElegida] Y posicionTabla[idJugador, fichaElegida] > 0 Y posicionTabla[idJugador, fichaElegida] < meta Entonces
             
             // Animacion de movimiento paso a paso (SIN verificar capturas en el camino)
-            Para paso <- 0 Hasta dado Hacer
+            Para paso <- 1 Hasta dado Hacer
                 Si posicionTabla[idJugador, fichaElegida] < meta Entonces
                     posicionTabla[idJugador, fichaElegida] <- posicionTabla[idJugador, fichaElegida] + 1
                     
@@ -1714,7 +1714,7 @@ SubProceso elegirY1MoverFicha(idJugador, dado, posicionTabla Por Referencia, est
                     Escribir ""
                     dibujarTablero(tablero, posicionTabla, cantJugadores, estadoFicha)
 					imprimirMatriz(tablero)
-                    Esperar 1200 Milisegundos
+                    Esperar 650 Milisegundos
                 FinSi
                 Limpiar Pantalla
             FinPara
@@ -1730,15 +1730,27 @@ SubProceso elegirY1MoverFicha(idJugador, dado, posicionTabla Por Referencia, est
         FinSi
     Hasta Que movimientoValido
 FinSubProceso
-SubProceso verificarGanadorTurno(idJugador, posicionTabla, meta, juegoActivo Por Referencia)
-    Definir p Como Entero
-    p <- 0
+SubProceso verificarGanadorTurno(idJugador, posicionTabla, estadoFicha, meta, juegoActivo Por Referencia)
+    Definir p, fichasEnMeta Como Entero
+    fichasEnMeta <- 0
+	
+    // Solo gana quien tiene sus CUATRO fichas activas en la meta.
     Para p <- 1 Hasta 4 Hacer
-        Si posicionTabla[idJugador, p] >= meta Entonces
-            juegoActivo <- Falso
-            llamarGanador(idJugador)
+        Si estadoFicha[idJugador, p] Y posicionTabla[idJugador, p] >= meta Entonces
+            fichasEnMeta <- fichasEnMeta + 1
         FinSi
     FinPara
+	
+    Si fichasEnMeta = 4 Entonces
+        juegoActivo <- Falso
+        llamarGanador(idJugador)
+        Escribir "Presione una tecla para volver al menu de Ludo..."
+        Esperar Tecla
+    Sino
+        Si fichasEnMeta > 0 Entonces
+            Escribir "Jugador ", idJugador, ": ", fichasEnMeta, " de 4 fichas en meta. La partida continua."
+        FinSi
+    FinSi
 FinSubProceso
 
 SubProceso procesarTurnoJugador(idJugador, posicionTabla Por Referencia, estadoFicha Por Referencia, tablero Por Referencia, cantJugadores, meta, juegoActivo Por Referencia)
@@ -1781,7 +1793,7 @@ SubProceso procesarTurnoJugador(idJugador, posicionTabla Por Referencia, estadoF
             FinSi
         FinSi
         
-        verificarGanadorTurno(idJugador, posicionTabla, meta, juegoActivo)
+        verificarGanadorTurno(idJugador, posicionTabla, estadoFicha, meta, juegoActivo)
         dibujarTablero(tablero, posicionTabla, cantJugadores, estadoFicha)
         
         Si turnoExtra Y juegoActivo Entonces
@@ -1831,16 +1843,16 @@ SubProceso procesarTurnoPC(idJugador, posicionTabla Por Referencia, estadoFicha 
         Si NO accionRealizada Entonces
             Escribir "La PC no pudo realizar ningun movimiento en este turno."
             turnoExtra <- Falso
-			Esperar 3000 Milisegundos
+			Esperar 2000 Milisegundos
         FinSi
         
-        verificarGanadorTurno(idJugador, posicionTabla, meta, juegoActivo)
+        verificarGanadorTurno(idJugador, posicionTabla, estadoFicha, meta, juegoActivo)
         dibujarTablero(tablero, posicionTabla, cantJugadores, estadoFicha)
         
         Si turnoExtra Y juegoActivo Entonces
             Escribir ""
             Escribir " ¡La PC tirara el dado nuevamente por haber obtenido un 6!"
-            Esperar 3000 Milisegundos
+            Esperar 2000 Milisegundos
         FinSi
         
     Hasta Que turnoExtra = Falso O juegoActivo = Falso
@@ -1855,7 +1867,7 @@ SubProceso pcMoverFichaTablero(idJugador, dado, posicionTabla Por Referencia, es
         Si estadoFicha[idJugador, p] Y posicionTabla[idJugador, p] > 0 Y posicionTabla[idJugador, p] < meta Y NO accionRealizada Entonces
             Escribir "-> La PC mueve su ficha ", p, " con valor ", dado, ":"
             
-            Para paso <- 0 Hasta dado Hacer
+            Para paso <- 1 Hasta dado Hacer
                 Si posicionTabla[idJugador, p] < meta Entonces
                     posicionTabla[idJugador, p] <- posicionTabla[idJugador, p] + 1
                     
@@ -1864,7 +1876,7 @@ SubProceso pcMoverFichaTablero(idJugador, dado, posicionTabla Por Referencia, es
                     Escribir ""
                     dibujarTablero(tablero, posicionTabla, cantJugadores, estadoFicha)
 					imprimirMatriz(tablero)
-                    Esperar 950 Milisegundos
+                    Esperar 550 Milisegundos
                     Limpiar Pantalla
                 FinSi
             FinPara
@@ -1901,16 +1913,128 @@ SubProceso inicializarLienzo(tablero Por Referencia)
     Definir f, c Como Entero
     f <- 0
     c <- 0
+	
+    // Primero se marca todo como fuera del tablero util.
     Para f <- 0 Hasta 14 Hacer
         Para c <- 0 Hasta 14 Hacer
-            tablero[f, c] <- " . "
-        FinPara
-    FinPara
-    Para f <- 6 Hasta 8 Hacer
-        Para c <- 6 Hasta 8 Hacer
             tablero[f, c] <- " X "
         FinPara
     FinPara
+	
+    // Casas de los jugadores (2x2 en cada esquina).
+    tablero[12, 1] <- " . "
+    tablero[12, 2] <- " . "
+    tablero[13, 1] <- " . "
+    tablero[13, 2] <- " . "
+	
+    tablero[1, 1] <- " . "
+    tablero[1, 2] <- " . "
+    tablero[2, 1] <- " . "
+    tablero[2, 2] <- " . "
+	
+    tablero[1, 12] <- " . "
+    tablero[1, 13] <- " . "
+    tablero[2, 12] <- " . "
+    tablero[2, 13] <- " . "
+	
+    tablero[12, 12] <- " . "
+    tablero[12, 13] <- " . "
+    tablero[13, 12] <- " . "
+    tablero[13, 13] <- " . "
+	
+    // Camino principal del tablero.
+    tablero[13, 6] <- " . "
+    tablero[12, 6] <- " . "
+    tablero[11, 6] <- " . "
+    tablero[10, 6] <- " . "
+    tablero[9, 6] <- " . "
+    tablero[8, 5] <- " . "
+    tablero[8, 4] <- " . "
+    tablero[8, 3] <- " . "
+    tablero[8, 2] <- " . "
+    tablero[8, 1] <- " . "
+    tablero[8, 0] <- " . "
+    tablero[7, 0] <- " . "
+    tablero[6, 0] <- " . "
+    tablero[6, 1] <- " . "
+    tablero[6, 2] <- " . "
+    tablero[6, 3] <- " . "
+    tablero[6, 4] <- " . "
+    tablero[6, 5] <- " . "
+    tablero[5, 6] <- " . "
+    tablero[4, 6] <- " . "
+    tablero[3, 6] <- " . "
+    tablero[2, 6] <- " . "
+    tablero[1, 6] <- " . "
+    tablero[0, 6] <- " . "
+    tablero[0, 7] <- " . "
+    tablero[0, 8] <- " . "
+    tablero[1, 8] <- " . "
+    tablero[2, 8] <- " . "
+    tablero[3, 8] <- " . "
+    tablero[4, 8] <- " . "
+    tablero[5, 8] <- " . "
+    tablero[6, 9] <- " . "
+    tablero[6, 10] <- " . "
+    tablero[6, 11] <- " . "
+    tablero[6, 12] <- " . "
+    tablero[6, 13] <- " . "
+    tablero[6, 14] <- " . "
+    tablero[7, 14] <- " . "
+    tablero[8, 14] <- " . "
+    tablero[8, 13] <- " . "
+    tablero[8, 12] <- " . "
+    tablero[8, 11] <- " . "
+    tablero[8, 10] <- " . "
+    tablero[8, 9] <- " . "
+    tablero[9, 8] <- " . "
+    tablero[10, 8] <- " . "
+    tablero[11, 8] <- " . "
+    tablero[12, 8] <- " . "
+    tablero[13, 8] <- " . "
+    tablero[14, 8] <- " . "
+    tablero[14, 7] <- " . "
+    tablero[14, 6] <- " . "
+	
+    // Caminos de llegada a la meta.
+    tablero[13, 7] <- " . "
+    tablero[12, 7] <- " . "
+    tablero[11, 7] <- " . "
+    tablero[10, 7] <- " . "
+    tablero[9, 7] <- " . "
+    tablero[8, 7] <- " . "
+	
+    tablero[7, 1] <- " . "
+    tablero[7, 2] <- " . "
+    tablero[7, 3] <- " . "
+    tablero[7, 4] <- " . "
+    tablero[7, 5] <- " . "
+    tablero[7, 6] <- " . "
+	
+    tablero[1, 7] <- " . "
+    tablero[2, 7] <- " . "
+    tablero[3, 7] <- " . "
+    tablero[4, 7] <- " . "
+    tablero[5, 7] <- " . "
+    tablero[6, 7] <- " . "
+	
+    tablero[7, 13] <- " . "
+    tablero[7, 12] <- " . "
+    tablero[7, 11] <- " . "
+    tablero[7, 10] <- " . "
+    tablero[7, 9] <- " . "
+    tablero[7, 8] <- " . "
+	
+    // Casillas seguras del recorrido: 4 salidas y 4 estrellas.
+    // Deben coincidir con esCasillaSegura(posGlobal).
+    tablero[13, 6] <- " S " // Posicion global 1: Salida jugador 1
+    tablero[8, 2] <- " S " // Posicion global 9: Estrella azul
+    tablero[6, 1] <- " S " // Posicion global 14: Salida jugador 2
+    tablero[2, 6] <- " S " // Posicion global 22: Estrella roja
+    tablero[1, 8] <- " S " // Posicion global 27: Salida jugador 3
+    tablero[6, 12] <- " S " // Posicion global 35: Estrella verde
+    tablero[8, 13] <- " S " // Posicion global 40: Salida jugador 4
+    tablero[12, 8] <- " S " // Posicion global 48: Estrella amarilla
 FinSubProceso
 
 SubProceso posicionarCasaEnMatriz(tablero Por Referencia, numJugador, numFicha, etiqueta)
@@ -2074,7 +2198,6 @@ SubProceso dibujarTablero(tablero Por Referencia, posicionTabla, cantJugadores, 
         FinPara
     FinPara
 FinSubProceso
-
 // =============================================
 // ====== BATALLA NAVAL (VERSION FINAL) ========
 // =============================================
